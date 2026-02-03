@@ -1,0 +1,35 @@
+# Clawdbot Arena Stage
+# Single screen arena for 1v1 battles
+
+name		Arena
+music		data/stages/arena/arena_music.ogg
+direction	both
+scrollspeed	0
+
+# Background layers
+background	data/stages/arena/arena_bg.png	0	0	0	0	0	0	0	0
+
+# Stage dimensions (no scrolling)
+setpalette	data/stages/arena/arena.act
+
+# Spawn points
+spawn	1	200	400
+spawn	2	1720	400
+
+# Arena boundaries
+wall	0	0	1920	1080
+
+# Front panel
+frontpanel	data/stages/arena/arena_front.png	0	1
+
+# Round settings
+at	0
+	wait	180
+	type	nojoin
+	type	endlevel
+
+# Versus mode - no enemies, just player vs player
+at	1
+	wait	1
+	boss	Fighter1	200	0
+	boss	Fighter2	1720	0

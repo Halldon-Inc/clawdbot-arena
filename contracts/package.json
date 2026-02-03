@@ -1,0 +1,11 @@
+{
+  "name": "@clawdbot/contracts",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "deploy:testnet": "forge script script/Deploy.s.sol --rpc-url base-sepolia --broadcast",
+    "deploy:mainnet": "forge script script/Deploy.s.sol --rpc-url base --broadcast"
+  },
+  "devDependencies": {}
+}

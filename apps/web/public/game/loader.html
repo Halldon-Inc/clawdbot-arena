@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clawdbot Arena - Game Loader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0f;
+            color: #e4e4e7;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #game-container {
+            width: 100%;
+            max-width: 1280px;
+            aspect-ratio: 16/9;
+            background: #12121a;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+        }
+        #loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #12121a;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #27272a;
+            border-top-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            margin-top: 16px;
+            color: #71717a;
+        }
+        #error {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: #12121a;
+            padding: 32px;
+            text-align: center;
+        }
+        .error-title {
+            color: #ef4444;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div id="loading">
+            <div class="spinner"></div>
+            <p class="loading-text">Loading Clawdbot Arena...</p>
+        </div>
+        <div id="error">
+            <h2 class="error-title">Failed to Load Game</h2>
+            <p id="error-message"></p>
+        </div>
+    </div>
+
+    <script>
+        // OpenBOR-WASM Configuration
+        const config = {
+            assetsPaths: ['clawdbot-arena.pak'],
+            assetType: 'pak',
+            baseWidth: 1920,
+            baseHeight: 1080,
+        };
+
+        // Game state bridge - exposed globally for parent window
+        window.ClawdbotBridge = {
+            // Get current game state
+            getState: function() {
+                // This will be populated by OpenBOR callbacks
+                return window._gameState || null;
+            },
+
+            // Set player input
+            setInput: function(playerId, input) {
+                if (window._setPlayerInput) {
+                    window._setPlayerInput(playerId, input);
+                }
+            },
+
+            // Match control
+            startMatch: function() {
+                if (window._startMatch) window._startMatch();
+            },
+
+            pauseMatch: function() {
+                if (window._pauseMatch) window._pauseMatch();
+            },
+
+            resetMatch: function() {
+                if (window._resetMatch) window._resetMatch();
+            },
+
+            // Event callbacks (set by parent)
+            onStateUpdate: null,
+            onMatchEnd: null,
+            onRoundEnd: null,
+        };
+
+        // Initialize game state
+        window._gameState = {
+            player1: { health: 1000, maxHealth: 1000, x: 200, y: 400, state: 'idle', facing: 'right', grounded: true },
+            player2: { health: 1000, maxHealth: 1000, x: 1720, y: 400, state: 'idle', facing: 'left', grounded: true },
+            roundNumber: 1,
+            roundsP1: 0,
+            roundsP2: 0,
+            timeRemaining: 99,
+            phase: 'countdown',
+        };
+
+        // Load OpenBOR WASM
+        async function loadGame() {
+            try {
+                const response = await fetch('openbor.wasm');
+                if (!response.ok) {
+                    throw new Error('WASM file not found. Run setup-openbor.sh first.');
+                }
+
+                // Load the game module
+                const script = document.createElement('script');
+                script.src = 'game.js';
+                script.onload = () => {
+                    console.log('OpenBOR-WASM loaded');
+                    document.getElementById('loading').style.display = 'none';
+                };
+                script.onerror = (e) => {
+                    showError('Failed to load game.js');
+                };
+                document.body.appendChild(script);
+
+            } catch (e) {
+                showError(e.message);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'flex';
+            document.getElementById('error').style.flexDirection = 'column';
+            document.getElementById('error').style.alignItems = 'center';
+            document.getElementById('error').style.justifyContent = 'center';
+            document.getElementById('error-message').textContent = message;
+        }
+
+        // Start loading
+        loadGame();
+
+        // Notify parent when ready
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'GAME_READY' }, '*');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+# Clawdbot Fighter Template
+# Base character for all Clawdbot fighters
+
+name		Fighter1
+type		player
+subtype		ninjutsu
+
+# Stats (normalized for arena)
+health		1000
+mp			100
+mprecharge	2
+
+# Physics
+speed		12
+running		20
+jumpheight	12
+gravity		6
+
+# Size
+height		80
+width		60
+
+# Icon for selection
+icon		data/chars/fighter/icon.png
+
+# Animations
+anim	idle
+	loop	1
+	delay	8
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/idle_01.png
+	frame	data/chars/fighter/idle_02.png
+	frame	data/chars/fighter/idle_03.png
+	frame	data/chars/fighter/idle_04.png
+
+anim	walk
+	loop	1
+	delay	6
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/walk_01.png
+	frame	data/chars/fighter/walk_02.png
+	frame	data/chars/fighter/walk_03.png
+	frame	data/chars/fighter/walk_04.png
+
+anim	run
+	loop	1
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/run_01.png
+	frame	data/chars/fighter/run_02.png
+	frame	data/chars/fighter/run_03.png
+	frame	data/chars/fighter/run_04.png
+
+# Light Attack Chain (LLLL = Quick Strikes)
+anim	attack1
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/hit_light.wav
+	@cmd	attackbox	0	0	0	0	0	0
+	frame	data/chars/fighter/attack1_01.png
+	frame	data/chars/fighter/attack1_02.png
+	attack	60	0	20	30	20	0	0	0	0	0
+	frame	data/chars/fighter/attack1_03.png
+	frame	data/chars/fighter/attack1_04.png
+	followup	attack2
+
+anim	attack2
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/hit_light.wav
+	frame	data/chars/fighter/attack2_01.png
+	frame	data/chars/fighter/attack2_02.png
+	attack	60	0	20	30	20	0	0	0	0	0
+	frame	data/chars/fighter/attack2_03.png
+	frame	data/chars/fighter/attack2_04.png
+	followup	attack3
+
+anim	attack3
+	delay	5
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/hit_light.wav
+	frame	data/chars/fighter/attack3_01.png
+	frame	data/chars/fighter/attack3_02.png
+	attack	65	0	25	35	25	0	0	0	0	0
+	frame	data/chars/fighter/attack3_03.png
+	frame	data/chars/fighter/attack3_04.png
+	followup	attack4
+
+anim	attack4
+	delay	6
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/hit_medium.wav
+	frame	data/chars/fighter/attack4_01.png
+	frame	data/chars/fighter/attack4_02.png
+	attack	70	5	30	40	30	0	0	0	0	0
+	frame	data/chars/fighter/attack4_03.png
+	frame	data/chars/fighter/attack4_04.png
+	frame	data/chars/fighter/attack4_05.png
+
+# Heavy Attack (launcher)
+anim	attack5
+	delay	8
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/hit_heavy.wav
+	frame	data/chars/fighter/heavy_01.png
+	frame	data/chars/fighter/heavy_02.png
+	frame	data/chars/fighter/heavy_03.png
+	attack	70	0	60	50	80	0	0	0	0	0
+	attackz	-60
+	frame	data/chars/fighter/heavy_04.png
+	frame	data/chars/fighter/heavy_05.png
+	frame	data/chars/fighter/heavy_06.png
+
+# Jump
+anim	jump
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/jump_01.png
+	frame	data/chars/fighter/jump_02.png
+	frame	data/chars/fighter/jump_03.png
+
+anim	fall
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/fall_01.png
+	frame	data/chars/fighter/fall_02.png
+
+# Air Attack
+anim	jumpattack
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/hit_light.wav
+	frame	data/chars/fighter/jumpattack_01.png
+	attack	55	5	15	30	15	0	0	0	0	50
+	frame	data/chars/fighter/jumpattack_02.png
+	frame	data/chars/fighter/jumpattack_03.png
+
+# Block
+anim	block
+	loop	0
+	delay	1
+	offset	30	80
+	bbox	10	10	40	70
+	block	1
+	frame	data/chars/fighter/block_01.png
+
+# Hit reactions
+anim	pain
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/pain_01.png
+	frame	data/chars/fighter/pain_02.png
+
+anim	fall
+	delay	4
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/fall_01.png
+	frame	data/chars/fighter/fall_02.png
+	frame	data/chars/fighter/fall_03.png
+
+anim	rise
+	delay	6
+	offset	30	80
+	bbox	10	10	40	70
+	frame	data/chars/fighter/rise_01.png
+	frame	data/chars/fighter/rise_02.png
+	frame	data/chars/fighter/rise_03.png
+
+# Special Attack (Magic)
+anim	special
+	energycost	30
+	delay	6
+	offset	30	80
+	bbox	10	10	40	70
+	sound	data/sounds/magic.wav
+	frame	data/chars/fighter/special_01.png
+	frame	data/chars/fighter/special_02.png
+	attack	80	0	70	60	100	0	0	0	0	0
+	frame	data/chars/fighter/special_03.png
+	frame	data/chars/fighter/special_04.png
+	frame	data/chars/fighter/special_05.png
+
+# KO
+anim	death
+	delay	8
+	offset	30	80
+	frame	data/chars/fighter/death_01.png
+	frame	data/chars/fighter/death_02.png
+	frame	data/chars/fighter/death_03.png
+	frame	data/chars/fighter/death_04.png

@@ -1,0 +1,28 @@
+# Clawdbot Arena - OpenBOR Game Configuration
+# Castle Crashers-Style Beat 'Em Up Arena
+
+# Game Settings
+maxplayers	2
+noshare	1
+maxdowns	0
+colourselect	0
+
+# Health Settings
+hpbar	1
+hpbar_style	0
+hpbar_position	0	0	0
+hpbar_size	300	20
+
+# Match Settings
+timelimit	99
+mode	versus
+
+# Load Scripts
+script	data/scripts/main.c
+
+# Load Characters
+know	Fighter1	data/chars/fighter/fighter1.txt
+know	Fighter2	data/chars/fighter/fighter2.txt
+
+# Load Stage
+level	data/stages/arena/arena.txt
