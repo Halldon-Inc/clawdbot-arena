@@ -227,33 +227,102 @@ export function LiveLeaderboard({
     // For now, this is a placeholder for WebSocket integration
   }, []);
 
-  // Connect to WebSocket for real-time updates
+  // Fetch initial leaderboard data
   useEffect(() => {
-    // TODO: Connect to actual WebSocket
-    // For now, simulate connection
-    const timer = setTimeout(() => setIsConnected(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080';
 
-  // Mock data for development
-  useEffect(() => {
-    if (entries.length === 0) {
-      const mockEntries: LeaderboardEntry[] = [
-        { rank: 1, playerId: '1', botName: 'AlphaBot', rating: 2456, tier: 'champion', gamesPlayed: 234, winRate: 0.78, isOnline: true, isInMatch: true, currentMatchId: 'match_1' },
-        { rank: 2, playerId: '2', botName: 'NeuralKnight', rating: 2312, tier: 'grandmaster', gamesPlayed: 189, winRate: 0.72, isOnline: true, isInMatch: false, currentMatchId: null },
-        { rank: 3, playerId: '3', botName: 'DeepStrike', rating: 2198, tier: 'master', gamesPlayed: 156, winRate: 0.69, isOnline: false, isInMatch: false, currentMatchId: null },
-        { rank: 4, playerId: '4', botName: 'QuantumFist', rating: 2087, tier: 'master', gamesPlayed: 203, winRate: 0.65, isOnline: true, isInMatch: true, currentMatchId: 'match_2' },
-        { rank: 5, playerId: '5', botName: 'IronLogic', rating: 1923, tier: 'diamond', gamesPlayed: 178, winRate: 0.61, isOnline: true, isInMatch: false, currentMatchId: null },
-        { rank: 6, playerId: '6', botName: 'SynapseStorm', rating: 1845, tier: 'diamond', gamesPlayed: 145, winRate: 0.58, isOnline: false, isInMatch: false, currentMatchId: null },
-        { rank: 7, playerId: '7', botName: 'BlazeNet', rating: 1756, tier: 'platinum', gamesPlayed: 167, winRate: 0.55, isOnline: true, isInMatch: false, currentMatchId: null },
-        { rank: 8, playerId: '8', botName: 'TitanCore', rating: 1689, tier: 'platinum', gamesPlayed: 134, winRate: 0.52, isOnline: false, isInMatch: false, currentMatchId: null },
-        { rank: 9, playerId: '9', botName: 'VectorPunch', rating: 1534, tier: 'gold', gamesPlayed: 98, winRate: 0.49, isOnline: true, isInMatch: false, currentMatchId: null },
-        { rank: 10, playerId: '10', botName: 'ByteBrawler', rating: 1423, tier: 'gold', gamesPlayed: 87, winRate: 0.46, isOnline: false, isInMatch: false, currentMatchId: null },
-      ];
-      setEntries(mockEntries);
-      setTotalPlayers(1247);
-    }
-  }, [entries.length]);
+    const fetchLeaderboard = () => {
+      const ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        ws.send(JSON.stringify({ type: 'GET_LEADERBOARD' }));
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+
+          if (message.type === 'LEADERBOARD') {
+            const leaderboardEntries: LeaderboardEntry[] = message.entries.map(
+              (entry: any, index: number) => ({
+                rank: index + 1,
+                playerId: entry.botId,
+                botName: entry.botName,
+                rating: entry.rating,
+                tier: getTierFromRating(entry.rating),
+                gamesPlayed: entry.gamesPlayed || 0,
+                winRate: entry.winRate || 0.5,
+                isOnline: entry.isOnline || false,
+                isInMatch: entry.isInMatch || false,
+                currentMatchId: entry.currentMatchId || null,
+              })
+            );
+
+            setEntries(leaderboardEntries.slice(0, maxEntries));
+            setTotalPlayers(leaderboardEntries.length);
+            setLastUpdated(Date.now());
+            setIsConnected(true);
+          }
+        } catch (err) {
+          console.error('Failed to parse leaderboard data:', err);
+        }
+      };
+
+      ws.onerror = () => {
+        // Fall back to mock data on error
+        loadMockData();
+      };
+
+      ws.onclose = () => {
+        setIsConnected(false);
+      };
+
+      return ws;
+    };
+
+    const ws = fetchLeaderboard();
+
+    // Refresh every 30 seconds
+    const refreshInterval = setInterval(() => {
+      fetchLeaderboard();
+    }, 30000);
+
+    return () => {
+      ws.close();
+      clearInterval(refreshInterval);
+    };
+  }, [maxEntries]);
+
+  // Helper to get tier from rating
+  const getTierFromRating = (rating: number): RankTier => {
+    if (rating >= 2400) return 'champion';
+    if (rating >= 2200) return 'grandmaster';
+    if (rating >= 2000) return 'master';
+    if (rating >= 1800) return 'diamond';
+    if (rating >= 1600) return 'platinum';
+    if (rating >= 1400) return 'gold';
+    if (rating >= 1200) return 'silver';
+    return 'bronze';
+  };
+
+  // Load mock data as fallback
+  const loadMockData = () => {
+    const mockEntries: LeaderboardEntry[] = [
+      { rank: 1, playerId: '1', botName: 'AlphaBot', rating: 2456, tier: 'champion', gamesPlayed: 234, winRate: 0.78, isOnline: true, isInMatch: true, currentMatchId: 'match_1' },
+      { rank: 2, playerId: '2', botName: 'NeuralKnight', rating: 2312, tier: 'grandmaster', gamesPlayed: 189, winRate: 0.72, isOnline: true, isInMatch: false, currentMatchId: null },
+      { rank: 3, playerId: '3', botName: 'DeepStrike', rating: 2198, tier: 'master', gamesPlayed: 156, winRate: 0.69, isOnline: false, isInMatch: false, currentMatchId: null },
+      { rank: 4, playerId: '4', botName: 'QuantumFist', rating: 2087, tier: 'master', gamesPlayed: 203, winRate: 0.65, isOnline: true, isInMatch: true, currentMatchId: 'match_2' },
+      { rank: 5, playerId: '5', botName: 'IronLogic', rating: 1923, tier: 'diamond', gamesPlayed: 178, winRate: 0.61, isOnline: true, isInMatch: false, currentMatchId: null },
+      { rank: 6, playerId: '6', botName: 'SynapseStorm', rating: 1845, tier: 'diamond', gamesPlayed: 145, winRate: 0.58, isOnline: false, isInMatch: false, currentMatchId: null },
+      { rank: 7, playerId: '7', botName: 'BlazeNet', rating: 1756, tier: 'platinum', gamesPlayed: 167, winRate: 0.55, isOnline: true, isInMatch: false, currentMatchId: null },
+      { rank: 8, playerId: '8', botName: 'TitanCore', rating: 1689, tier: 'platinum', gamesPlayed: 134, winRate: 0.52, isOnline: false, isInMatch: false, currentMatchId: null },
+      { rank: 9, playerId: '9', botName: 'VectorPunch', rating: 1534, tier: 'gold', gamesPlayed: 98, winRate: 0.49, isOnline: true, isInMatch: false, currentMatchId: null },
+      { rank: 10, playerId: '10', botName: 'ByteBrawler', rating: 1423, tier: 'gold', gamesPlayed: 87, winRate: 0.46, isOnline: false, isInMatch: false, currentMatchId: null },
+    ];
+    setEntries(mockEntries);
+    setTotalPlayers(1247);
+    setIsConnected(false);
+  };
 
   return (
     <div className={`bg-gray-900 rounded-xl overflow-hidden ${className}`}>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { OpenBORCanvas } from '@/components/game';
+import { PhaserGameContainer } from '@/components/game';
 import Link from 'next/link';
 
 interface SpectatePageProps {
@@ -17,7 +17,6 @@ interface MatchInfo {
 }
 
 export default function SpectatePage({ params }: SpectatePageProps) {
-  const [connected, setConnected] = useState(false);
   const [matchEnded, setMatchEnded] = useState(false);
   const [winner, setWinner] = useState<string | null>(null);
   const [matchInfo, setMatchInfo] = useState<MatchInfo>({
@@ -28,34 +27,22 @@ export default function SpectatePage({ params }: SpectatePageProps) {
     odds: { player1: 1.45, player2: 2.10 },
   });
 
-  useEffect(() => {
-    // Simulate connection
-    const timer = setTimeout(() => setConnected(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
   // Simulate spectator count updates
   useEffect(() => {
-    if (!connected) return;
-
     const interval = setInterval(() => {
       setMatchInfo((prev) => ({
         ...prev,
-        spectators: prev.spectators + Math.floor(Math.random() * 3) - 1,
+        spectators: Math.max(1, prev.spectators + Math.floor(Math.random() * 3) - 1),
       }));
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [connected]);
+  }, []);
 
   const handleMatchEnd = useCallback((winnerId: string) => {
     setMatchEnded(true);
     setWinner(winnerId === 'bot1' ? matchInfo.player1.name : matchInfo.player2.name);
   }, [matchInfo.player1.name, matchInfo.player2.name]);
-
-  const handleRoundEnd = useCallback((roundNumber: number, winnerId: string) => {
-    console.log(`Round ${roundNumber} ended. Winner: ${winnerId}`);
-  }, []);
 
   return (
     <div className="max-w-7xl mx-auto py-4">
@@ -93,23 +80,17 @@ export default function SpectatePage({ params }: SpectatePageProps) {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Game View */}
         <div className="lg:col-span-3">
-          {!connected ? (
-            <div className="aspect-video bg-gray-900 rounded-2xl border border-gray-800 flex items-center justify-center">
-              <div className="text-center">
-                <div className="animate-spin w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full mx-auto mb-4" />
-                <p className="text-gray-400">Connecting to match...</p>
-              </div>
-            </div>
-          ) : (
-            <OpenBORCanvas
-              matchId={params.matchId}
-              player1Name={matchInfo.player1.name}
-              player2Name={matchInfo.player2.name}
-              onMatchEnd={handleMatchEnd}
-              onRoundEnd={handleRoundEnd}
-              className="rounded-2xl border border-gray-800"
-            />
-          )}
+          <PhaserGameContainer
+            matchId={params.matchId}
+            wsUrl={process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080'}
+            width={1280}
+            height={720}
+            onMatchEnd={(winnerId) => {
+              if (winnerId) {
+                handleMatchEnd(winnerId === matchInfo.player1.name ? 'bot1' : 'bot2');
+              }
+            }}
+          />
 
           {/* Match Result Overlay */}
           {matchEnded && winner && (

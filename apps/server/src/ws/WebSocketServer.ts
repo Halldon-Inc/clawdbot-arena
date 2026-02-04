@@ -8,6 +8,8 @@ import type { IncomingMessage } from 'http';
 import { nanoid } from 'nanoid';
 import { ConnectionManager, type Connection } from './ConnectionManager.js';
 import { AuthService } from '../auth/AuthService.js';
+import { RateLimiter } from '../utils/RateLimiter.js';
+import { logger } from '../utils/Logger.js';
 
 export interface WSMessage {
   type: string;
@@ -18,12 +20,14 @@ export interface WSServerOptions {
   port?: number;
   pingInterval?: number;
   connectionTimeout?: number;
+  enableRateLimiting?: boolean;
 }
 
 export class WebSocketServerWrapper {
   private wss: WSServer | null = null;
   private connectionManager: ConnectionManager;
   private authService: AuthService;
+  private rateLimiter: RateLimiter;
   private options: Required<WSServerOptions>;
   private pingTimer: NodeJS.Timeout | null = null;
   private messageHandlers: Map<string, (conn: Connection, message: WSMessage) => void>;
@@ -34,10 +38,12 @@ export class WebSocketServerWrapper {
   ) {
     this.authService = authService;
     this.connectionManager = new ConnectionManager();
+    this.rateLimiter = new RateLimiter();
     this.options = {
       port: options.port ?? 8080,
       pingInterval: options.pingInterval ?? 10000,
       connectionTimeout: options.connectionTimeout ?? 30000,
+      enableRateLimiting: options.enableRateLimiting ?? true,
     };
     this.messageHandlers = new Map();
 
@@ -114,13 +120,24 @@ export class WebSocketServerWrapper {
    * Handle new connection
    */
   private handleConnection(ws: WebSocket, req: IncomingMessage): void {
+    const ip = req.socket.remoteAddress || 'unknown';
+
+    // Rate limit connections
+    if (this.options.enableRateLimiting && !this.rateLimiter.check('connection', ip)) {
+      const blockedFor = this.rateLimiter.getBlockedFor('connection', ip);
+      logger.warn('Connection rate limited', { ip, blockedFor });
+      ws.close(4029, `Rate limited. Try again in ${Math.ceil(blockedFor / 1000)}s`);
+      return;
+    }
+
     const connectionId = nanoid(16);
     const isBot = req.url?.includes('/bot');
     const type = isBot ? 'bot' : 'spectator';
 
     const connection = this.connectionManager.add(connectionId, ws, type);
+    (connection as any)._ip = ip;
 
-    console.log(`New ${type} connection: ${connectionId}`);
+    logger.info(`New ${type} connection`, { connectionId, ip });
 
     ws.on('message', (data) => {
       try {
@@ -162,6 +179,15 @@ export class WebSocketServerWrapper {
     connection: Connection,
     message: WSMessage
   ): void {
+    const ip = (connection as any)._ip || 'unknown';
+
+    // Rate limit messages
+    if (this.options.enableRateLimiting && !this.rateLimiter.check('message', connectionId)) {
+      logger.warn('Message rate limited', { connectionId, ip, type: message.type });
+      this.sendError(connection.ws, 'RATE_LIMITED', 'Too many messages. Slow down.');
+      return;
+    }
+
     this.connectionManager.updatePing(connectionId);
 
     const handler = this.messageHandlers.get(message.type);
@@ -169,7 +195,7 @@ export class WebSocketServerWrapper {
     if (handler) {
       handler(connection, message);
     } else {
-      console.warn(`Unknown message type: ${message.type}`);
+      logger.warn(`Unknown message type: ${message.type}`, { connectionId });
       this.sendError(connection.ws, 'UNKNOWN_TYPE', `Unknown message type: ${message.type}`);
     }
   }
@@ -178,7 +204,17 @@ export class WebSocketServerWrapper {
    * Handle authentication message
    */
   private async handleAuth(conn: Connection, message: WSMessage): Promise<void> {
+    const ip = (conn as any)._ip || 'unknown';
     const apiKey = message.apiKey as string;
+
+    // Rate limit auth attempts
+    if (this.options.enableRateLimiting && !this.rateLimiter.check('auth', ip)) {
+      const blockedFor = this.rateLimiter.getBlockedFor('auth', ip);
+      logger.warn('Auth rate limited', { ip, blockedFor });
+      this.sendError(conn.ws, 'RATE_LIMITED', `Too many auth attempts. Try again in ${Math.ceil(blockedFor / 1000)}s`);
+      conn.ws.close(4029, 'Rate limited');
+      return;
+    }
 
     if (!apiKey) {
       this.sendError(conn.ws, 'AUTH_FAILED', 'Missing API key');
@@ -188,6 +224,7 @@ export class WebSocketServerWrapper {
     const session = await this.authService.authenticate(apiKey);
 
     if (!session) {
+      logger.warn('Auth failed - invalid API key', { ip });
       this.sendError(conn.ws, 'AUTH_FAILED', 'Invalid API key');
       conn.ws.close(4001, 'Authentication failed');
       return;
@@ -208,7 +245,7 @@ export class WebSocketServerWrapper {
       rating: session.rating,
     });
 
-    console.log(`Bot authenticated: ${session.botName} (${session.botId})`);
+    logger.info('Bot authenticated', { botName: session.botName, botId: session.botId, ip });
   }
 
   /**

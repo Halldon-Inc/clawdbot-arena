@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/arena', label: 'Arena' },
   { href: '/matches', label: 'Matches' },
   { href: '/leaderboard', label: 'Leaderboard' },
+  { href: '/register', label: 'Register Bot' },
 ];
 
 export function Navbar() {
