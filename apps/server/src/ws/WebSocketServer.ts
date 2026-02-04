@@ -63,13 +63,13 @@ export class WebSocketServerWrapper {
         this.wss.on('connection', this.handleConnection.bind(this));
 
         this.wss.on('listening', () => {
-          console.log(`WebSocket server listening on port ${this.options.port}`);
+          logger.info('WebSocket server listening', { port: this.options.port });
           this.startPingLoop();
           resolve();
         });
 
         this.wss.on('error', (error) => {
-          console.error('WebSocket server error:', error);
+          logger.error('WebSocket server error', error as Error);
           reject(error);
         });
       } catch (error) {
@@ -90,7 +90,7 @@ export class WebSocketServerWrapper {
 
       if (this.wss) {
         this.wss.close(() => {
-          console.log('WebSocket server stopped');
+          logger.info('WebSocket server stopped');
           resolve();
         });
       } else {
@@ -144,13 +144,17 @@ export class WebSocketServerWrapper {
         const message = JSON.parse(data.toString()) as WSMessage;
         this.handleMessage(connectionId, connection, message);
       } catch (error) {
-        console.error(`Error parsing message from ${connectionId}:`, error);
+        logger.error('Error parsing message', error instanceof Error ? error : new Error(String(error)), { connectionId });
         this.sendError(ws, 'INVALID_MESSAGE', 'Failed to parse message');
       }
     });
 
     ws.on('close', () => {
-      console.log(`Connection closed: ${connectionId}`);
+      logger.info('Connection closed', {
+        connectionId,
+        botId: connection.session?.botId,
+        botName: connection.session?.botName,
+      });
 
       if (connection.session) {
         this.authService.endSession(connection.session.botId);
@@ -160,7 +164,7 @@ export class WebSocketServerWrapper {
     });
 
     ws.on('error', (error) => {
-      console.error(`Connection error ${connectionId}:`, error);
+      logger.error('Connection error', error, { connectionId });
     });
 
     // Send welcome message
@@ -285,7 +289,7 @@ export class WebSocketServerWrapper {
     this.pingTimer = setInterval(() => {
       const removed = this.connectionManager.cleanupStale(this.options.connectionTimeout);
       if (removed.length > 0) {
-        console.log(`Cleaned up ${removed.length} stale connections`);
+        logger.info('Cleaned up stale connections', { count: removed.length });
       }
     }, this.options.pingInterval);
   }

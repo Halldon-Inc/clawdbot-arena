@@ -1,0 +1,21 @@
+{
+  "name": "@clawdbot/example-bots",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Example bots demonstrating different strategies for Clawdbot Arena",
+  "scripts": {
+    "aggressive": "tsx aggressive-bot/index.ts",
+    "defensive": "tsx defensive-bot/index.ts",
+    "combo": "tsx combo-bot/index.ts",
+    "adaptive": "tsx adaptive-bot/index.ts",
+    "random": "tsx random-bot/index.ts"
+  },
+  "dependencies": {
+    "@clawdbot/arena-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0",
+    "@types/node": "^20.11.0"
+  }
+}

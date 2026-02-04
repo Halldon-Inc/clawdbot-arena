@@ -2,68 +2,233 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =============================================================================
+   CSS Custom Properties — Design System
+   ============================================================================= */
+
 :root {
-  --foreground: 255 255 255;
-  --background: 3 7 18;
-  --primary: 139 92 246;
-  --secondary: 59 130 246;
-  --accent: 34 197 94;
-  --muted: 107 114 128;
+  /* Core Colors */
+  --color-bg: 3 3 8;
+  --color-surface: 10 10 26;
+  --color-border: 26 26 46;
+  --color-foreground: 255 255 255;
+
+  /* Neon Palette */
+  --neon-purple: 168 85 247;
+  --neon-blue: 59 130 246;
+  --neon-pink: 236 72 153;
+  --neon-green: 34 197 94;
+  --neon-amber: 245 158 11;
+  --neon-red: 239 68 68;
+  --neon-cyan: 6 182 212;
 }
+
+/* =============================================================================
+   Base Styles
+   ============================================================================= */
 
 body {
-  background: linear-gradient(to bottom, rgb(3 7 18), rgb(17 24 39));
+  background: rgb(var(--color-bg));
+  color: rgb(var(--color-foreground));
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Custom scrollbar */
+/* =============================================================================
+   Custom Scrollbar
+   ============================================================================= */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgb(17 24 39);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(55 65 81);
-  border-radius: 4px;
+  background: rgba(var(--neon-purple), 0.3);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(75 85 99);
+  background: rgba(var(--neon-purple), 0.5);
 }
 
-/* Glow effects */
-.glow-purple {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+/* =============================================================================
+   Glass Morphism
+   ============================================================================= */
+
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-hover {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.3s ease;
+  }
+
+  .glass-hover:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(var(--neon-purple), 0.3);
+    box-shadow: 0 0 30px rgba(var(--neon-purple), 0.1);
+  }
+
+  /* Gradient Mesh Background */
+  .bg-mesh {
+    background:
+      radial-gradient(at 40% 20%, rgba(var(--neon-purple), 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(var(--neon-blue), 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(var(--neon-pink), 0.1) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, rgba(var(--neon-green), 0.05) 0px, transparent 50%);
+  }
 }
 
-.glow-blue {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+/* =============================================================================
+   Glow Effects
+   ============================================================================= */
+
+@layer utilities {
+  /* Text Glow */
+  .text-glow-purple {
+    text-shadow: 0 0 10px rgba(var(--neon-purple), 0.5), 0 0 40px rgba(var(--neon-purple), 0.2);
+  }
+
+  .text-glow-blue {
+    text-shadow: 0 0 10px rgba(var(--neon-blue), 0.5), 0 0 40px rgba(var(--neon-blue), 0.2);
+  }
+
+  .text-glow-pink {
+    text-shadow: 0 0 10px rgba(var(--neon-pink), 0.5), 0 0 40px rgba(var(--neon-pink), 0.2);
+  }
+
+  .text-glow-green {
+    text-shadow: 0 0 10px rgba(var(--neon-green), 0.5), 0 0 40px rgba(var(--neon-green), 0.2);
+  }
+
+  .text-glow-amber {
+    text-shadow: 0 0 10px rgba(var(--neon-amber), 0.5), 0 0 40px rgba(var(--neon-amber), 0.2);
+  }
+
+  /* Box Glow */
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(var(--neon-purple), 0.3), 0 0 60px rgba(var(--neon-purple), 0.1);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(var(--neon-blue), 0.3), 0 0 60px rgba(var(--neon-blue), 0.1);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 20px rgba(var(--neon-pink), 0.3), 0 0 60px rgba(var(--neon-pink), 0.1);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px rgba(var(--neon-green), 0.3), 0 0 60px rgba(var(--neon-green), 0.1);
+  }
+
+  .glow-amber {
+    box-shadow: 0 0 20px rgba(var(--neon-amber), 0.3), 0 0 60px rgba(var(--neon-amber), 0.1);
+  }
+
+  /* Border Glow */
+  .border-glow-purple {
+    border-color: rgba(var(--neon-purple), 0.4);
+    box-shadow: 0 0 15px rgba(var(--neon-purple), 0.15), inset 0 0 15px rgba(var(--neon-purple), 0.05);
+  }
+
+  .border-glow-blue {
+    border-color: rgba(var(--neon-blue), 0.4);
+    box-shadow: 0 0 15px rgba(var(--neon-blue), 0.15), inset 0 0 15px rgba(var(--neon-blue), 0.05);
+  }
 }
 
-.glow-green {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-}
+/* =============================================================================
+   Animations
+   ============================================================================= */
 
-/* Animations */
 @keyframes pulse-glow {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
-/* Glass morphism */
-.glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-glitch {
+  animation: glitch 0.3s ease-in-out;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* =============================================================================
+   Gradient Text
+   ============================================================================= */
+
+.gradient-text-purple {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-fire {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* =============================================================================
+   Reduced Motion
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

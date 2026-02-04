@@ -13,6 +13,7 @@ import type {
 } from '@clawdbot/protocol';
 import type { ConnectionManager } from '../ws/ConnectionManager.js';
 import { ReplayRecorder, type ReplayData } from './ReplayRecorder.js';
+import { logger } from '../utils/Logger.js';
 
 export interface MatchConfig {
   player1BotId: string;
@@ -38,6 +39,7 @@ export class MatchServer {
   private activeMatches: Map<string, ActiveMatch>;
   private botToMatch: Map<string, string>;
   private onMatchEnd: ((matchId: string, replay: ReplayData) => void) | null = null;
+  private log = logger.child({ component: 'MatchServer' });
 
   constructor(connectionManager: ConnectionManager) {
     this.connectionManager = connectionManager;
@@ -85,7 +87,13 @@ export class MatchServer {
     this.connectionManager.assignToMatch(config.player1BotId, matchId);
     this.connectionManager.assignToMatch(config.player2BotId, matchId);
 
-    console.log(`Match created: ${matchId} (${config.player1BotId} vs ${config.player2BotId})`);
+    this.log.info('Match created', {
+      matchId,
+      lifecycle: 'created',
+      player1: config.player1BotId,
+      player2: config.player2BotId,
+      tickRate: config.tickRate,
+    });
 
     // Start the game loop
     this.startGameLoop(match);
@@ -257,6 +265,11 @@ export class MatchServer {
         this.connectionManager.sendToBot(match.config.player1BotId, roundMsg);
         this.connectionManager.sendToBot(match.config.player2BotId, roundMsg);
         this.connectionManager.broadcastToSpectators(match.matchId, roundMsg);
+        this.log.info('Round started', {
+          matchId: match.matchId,
+          lifecycle: 'round',
+          roundNumber: data.roundNumber,
+        });
         break;
 
       case 'match_end':
@@ -311,7 +324,14 @@ export class MatchServer {
     this.botToMatch.delete(match.config.player2BotId);
     this.activeMatches.delete(matchId);
 
-    console.log(`Match ended: ${matchId}, winner: ${result.winner}`);
+    this.log.info('Match ended', {
+      matchId,
+      lifecycle: 'ended',
+      winner: result.winner,
+      score: { p1Rounds: state.roundsP1, p2Rounds: state.roundsP2 },
+      duration: Date.now() - match.startedAt,
+      totalFrames: replay.totalFrames,
+    });
 
     // Callback
     if (this.onMatchEnd) {

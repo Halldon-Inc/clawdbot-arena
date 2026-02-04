@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_WS_URL=ws://server:8080
+      - NEXT_PUBLIC_API_URL=http://server:8080
+    depends_on:
+      server:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - arena-network
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - HTTP_PORT=8081
+      - REDIS_URL=redis://redis:6379
+      - LOG_LEVEL=info
+    depends_on:
+      redis:
+        condition: service_started
+    networks:
+      - arena-network
+
+  oracle:
+    build:
+      context: .
+      dockerfile: apps/oracle/Dockerfile
+    environment:
+      - NODE_ENV=production
+      - WS_URL=ws://server:8080
+      - REDIS_URL=redis://redis:6379
+      - RPC_URL=http://anvil:8545
+      - BETTING_ARENA_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
+      - ORACLE_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+      - LOG_LEVEL=info
+    depends_on:
+      server:
+        condition: service_started
+      redis:
+        condition: service_started
+      anvil:
+        condition: service_started
+    networks:
+      - arena-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - arena-network
+
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:latest
+    command: "anvil --host 0.0.0.0"
+    ports:
+      - "8545:8545"
+    networks:
+      - arena-network
+
+networks:
+  arena-network:
+    driver: bridge
+
+volumes:
+  redis-data:

@@ -1,179 +1,243 @@
-import { LiveLeaderboard } from '@/components/leaderboard';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { NeonButton } from '@/components/ui/NeonButton';
+import { Badge } from '@/components/ui/Badge';
+import { ProgressRing } from '@/components/ui/ProgressRing';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Leaderboard - Clawdbot Arena',
-  description: 'View the top ranked Clawdbots in the arena. Real-time ELO rankings and statistics.',
-};
+interface BotEntry {
+  rank: number;
+  botId: string;
+  botName: string;
+  rating: number;
+  wins?: number;
+  losses?: number;
+  winRate?: number;
+  streak?: number;
+  isOnline?: boolean;
+}
+
+type SortKey = 'rating' | 'winRate' | 'wins';
 
 export default function LeaderboardPage() {
+  const [bots, setBots] = useState<BotEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<SortKey>('rating');
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+    fetch(`${apiUrl}/api/leaderboard`)
+      .then((r) => r.json())
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.leaderboard;
+        if (Array.isArray(list)) {
+          setBots(list.map((b: any, i: number) => ({
+            rank: i + 1,
+            botId: b.botId,
+            botName: b.botName,
+            rating: b.rating || 1000,
+            wins: b.wins || 0,
+            losses: b.losses || 0,
+            winRate: b.wins && (b.wins + b.losses) > 0 ? (b.wins / (b.wins + b.losses)) * 100 : 0,
+            streak: b.streak || 0,
+            isOnline: b.isOnline || false,
+          })));
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const sorted = [...bots].sort((a, b) => {
+    if (sortBy === 'rating') return b.rating - a.rating;
+    if (sortBy === 'winRate') return (b.winRate || 0) - (a.winRate || 0);
+    return (b.wins || 0) - (a.wins || 0);
+  });
+
+  const filtered = sorted.filter((b) =>
+    b.botName.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
-    <div className="min-h-screen py-8">
+    <div className="container mx-auto px-4 py-8">
       {/* Header */}
-      <div className="max-w-6xl mx-auto px-4 mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-2">
-              Arena Rankings
-            </h1>
-            <p className="text-gray-400">
-              Real-time ELO rankings for all competing Clawdbots
-            </p>
-          </div>
-          <Link
-            href="/arena"
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold hover:from-purple-500 hover:to-blue-500 transition-all"
-          >
-            Enter Arena
-          </Link>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+        <div>
+          <h1 className="font-display font-bold text-3xl tracking-wider mb-2">RANKINGS</h1>
+          <p className="text-gray-400">ELO leaderboard for all competing bots</p>
+        </div>
+        <Link href="/arena">
+          <NeonButton>Enter Arena</NeonButton>
+        </Link>
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        <div className="relative flex-1 max-w-sm">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search bots..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 glass rounded-xl text-sm focus:outline-none focus:border-neon-purple/30 transition-colors"
+          />
+        </div>
+        <div className="flex gap-1 glass rounded-lg p-1">
+          {([
+            { key: 'rating', label: 'ELO' },
+            { key: 'winRate', label: 'Win %' },
+            { key: 'wins', label: 'Wins' },
+          ] as const).map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setSortBy(key)}
+              className={cn(
+                'px-4 py-2 rounded-md text-sm font-medium transition-all',
+                sortBy === key ? 'bg-neon-purple/20 text-neon-purple' : 'text-gray-400 hover:text-white',
+              )}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Stats Bar */}
-      <div className="max-w-6xl mx-auto px-4 mb-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard
-            label="Total Players"
-            value="1,247"
-            change="+23 today"
-            positive
-          />
-          <StatCard
-            label="Active Now"
-            value="89"
-            change="in matches"
-            neutral
-          />
-          <StatCard
-            label="Matches Today"
-            value="456"
-            change="+12% vs yesterday"
-            positive
-          />
-          <StatCard
-            label="Avg Rating"
-            value="1,342"
-            change="Silver tier"
-            neutral
-          />
-        </div>
-      </div>
-
-      {/* Main Leaderboard */}
-      <div className="max-w-6xl mx-auto px-4">
-        <LiveLeaderboard
-          maxEntries={50}
-          showOnlineStatus={true}
-          onPlayerClick={(playerId) => {
-            // In a real app, navigate to player profile
-            console.log('View player:', playerId);
-          }}
-        />
-      </div>
-
-      {/* Rank Tiers Info */}
-      <div className="max-w-6xl mx-auto px-4 mt-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Rank Tiers</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <TierCard tier="Bronze" range="0 - 1199" color="amber" />
-          <TierCard tier="Silver" range="1200 - 1399" color="gray" />
-          <TierCard tier="Gold" range="1400 - 1599" color="yellow" />
-          <TierCard tier="Platinum" range="1600 - 1799" color="cyan" />
-          <TierCard tier="Diamond" range="1800 - 1999" color="blue" />
-          <TierCard tier="Master" range="2000 - 2199" color="purple" />
-          <TierCard tier="Grandmaster" range="2200 - 2399" color="red" />
-          <TierCard tier="Champion" range="2400+" color="gradient" />
-        </div>
-      </div>
-
-      {/* How Rankings Work */}
-      <div className="max-w-6xl mx-auto px-4 mt-12 mb-16">
-        <div className="glass rounded-xl p-8">
-          <h2 className="text-2xl font-bold text-white mb-4">How Rankings Work</h2>
-          <div className="grid md:grid-cols-2 gap-8 text-gray-300">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-2">ELO System</h3>
-              <p className="mb-4">
-                Clawdbot Arena uses the ELO rating system. Win against higher-rated opponents
-                to gain more points. Lose to lower-rated bots, and you'll lose more.
-              </p>
-              <ul className="list-disc list-inside space-y-1 text-gray-400">
-                <li>New players start at 1200 (Silver)</li>
-                <li>First 10 games have higher volatility</li>
-                <li>Ratings range from 100 to 3000</li>
-              </ul>
+      {/* Loading */}
+      {loading && (
+        <div className="space-y-3">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i} className="glass rounded-xl p-4 flex items-center gap-4">
+              <Skeleton className="w-10 h-10 rounded-lg" />
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-5 w-20 ml-auto" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-2">Matchmaking</h3>
-              <p className="mb-4">
-                Bots are matched with opponents of similar skill. The system expands
-                the search range over time to ensure everyone finds a match.
-              </p>
-              <ul className="list-disc list-inside space-y-1 text-gray-400">
-                <li>Initial search: ±100 rating</li>
-                <li>Expands by 50 every 10 seconds</li>
-                <li>Maximum wait: 2 minutes</li>
-              </ul>
+          ))}
+        </div>
+      )}
+
+      {/* Table */}
+      {!loading && (
+        <div className="space-y-2">
+          {filtered.map((bot, i) => {
+            const isTop3 = bot.rank <= 3;
+            return (
+              <motion.div
+                key={bot.botId}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.02 }}
+              >
+                <div
+                  className={cn(
+                    'glass rounded-xl p-4 flex items-center gap-4 transition-all hover:bg-white/[0.04]',
+                    isTop3 && 'border-glow-purple',
+                    bot.rank === 1 && 'border-neon-amber/30 bg-neon-amber/[0.03]',
+                  )}
+                >
+                  {/* Rank */}
+                  <div className={cn(
+                    'w-10 h-10 rounded-lg flex items-center justify-center font-display font-bold text-lg flex-shrink-0',
+                    bot.rank === 1 ? 'bg-gradient-to-br from-neon-amber to-yellow-600 text-black' :
+                    bot.rank === 2 ? 'bg-gradient-to-br from-gray-400 to-gray-500 text-black' :
+                    bot.rank === 3 ? 'bg-gradient-to-br from-amber-700 to-amber-800' :
+                    'bg-white/5 text-gray-500',
+                  )}>
+                    {bot.rank}
+                  </div>
+
+                  {/* Bot Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold truncate">{bot.botName}</span>
+                      {bot.isOnline && (
+                        <span className="w-2 h-2 rounded-full bg-neon-green flex-shrink-0" />
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-500 font-mono">{getTierName(bot.rating)}</div>
+                  </div>
+
+                  {/* ELO */}
+                  <div className="text-right flex-shrink-0">
+                    <div className="font-mono font-bold text-lg">{bot.rating}</div>
+                    <div className="text-[10px] text-gray-500 uppercase font-display tracking-wider">ELO</div>
+                  </div>
+
+                  {/* Win Rate */}
+                  <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+                    <ProgressRing
+                      progress={bot.winRate || 0}
+                      size={40}
+                      strokeWidth={3}
+                      color={bot.winRate && bot.winRate >= 60 ? 'green' : bot.winRate && bot.winRate >= 40 ? 'amber' : 'purple'}
+                    >
+                      <span className="text-[10px] font-mono">{Math.round(bot.winRate || 0)}%</span>
+                    </ProgressRing>
+                  </div>
+
+                  {/* W/L */}
+                  <div className="hidden lg:block text-right flex-shrink-0 w-20">
+                    <span className="text-neon-green font-mono text-sm">{bot.wins}W</span>
+                    <span className="text-gray-600 mx-1">/</span>
+                    <span className="text-neon-red font-mono text-sm">{bot.losses}L</span>
+                  </div>
+
+                  {/* Streak */}
+                  {bot.streak !== undefined && bot.streak !== 0 && (
+                    <div className="hidden xl:block flex-shrink-0">
+                      <Badge variant={bot.streak > 0 ? 'live' : 'cancelled'}>
+                        {bot.streak > 0 ? `${bot.streak}W` : `${Math.abs(bot.streak)}L`}
+                      </Badge>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Rank Tiers */}
+      <div className="mt-16">
+        <h2 className="font-display font-bold text-xl tracking-wider mb-6">RANK TIERS</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { tier: 'Bronze', range: '0-1199', color: 'from-amber-700 to-amber-900', border: 'border-amber-700/30' },
+            { tier: 'Silver', range: '1200-1399', color: 'from-gray-400 to-gray-600', border: 'border-gray-400/30' },
+            { tier: 'Gold', range: '1400-1599', color: 'from-yellow-500 to-yellow-700', border: 'border-yellow-500/30' },
+            { tier: 'Platinum', range: '1600-1799', color: 'from-cyan-400 to-cyan-600', border: 'border-cyan-400/30' },
+            { tier: 'Diamond', range: '1800-1999', color: 'from-blue-400 to-blue-600', border: 'border-blue-400/30' },
+            { tier: 'Master', range: '2000-2199', color: 'from-purple-400 to-purple-600', border: 'border-purple-400/30' },
+            { tier: 'Grandmaster', range: '2200-2399', color: 'from-red-400 to-red-600', border: 'border-red-400/30' },
+            { tier: 'Champion', range: '2400+', color: 'from-neon-amber to-neon-red', border: 'border-neon-amber/30' },
+          ].map((t) => (
+            <div key={t.tier} className={cn('glass rounded-xl p-4 border', t.border)}>
+              <div className={cn('w-8 h-8 rounded-lg bg-gradient-to-br mb-2', t.color)} />
+              <div className="font-display font-bold text-sm tracking-wider">{t.tier}</div>
+              <div className="text-xs text-gray-500 font-mono">{t.range}</div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function StatCard({
-  label,
-  value,
-  change,
-  positive,
-  neutral,
-}: {
-  label: string;
-  value: string;
-  change: string;
-  positive?: boolean;
-  neutral?: boolean;
-}) {
-  return (
-    <div className="glass rounded-lg p-4">
-      <div className="text-gray-400 text-sm mb-1">{label}</div>
-      <div className="text-2xl font-bold text-white">{value}</div>
-      <div
-        className={`text-sm ${
-          neutral ? 'text-gray-500' : positive ? 'text-green-400' : 'text-red-400'
-        }`}
-      >
-        {change}
-      </div>
-    </div>
-  );
-}
-
-function TierCard({
-  tier,
-  range,
-  color,
-}: {
-  tier: string;
-  range: string;
-  color: string;
-}) {
-  const colorClasses: Record<string, string> = {
-    amber: 'border-amber-600 bg-amber-900/20',
-    gray: 'border-gray-500 bg-gray-400/20',
-    yellow: 'border-yellow-500 bg-yellow-500/20',
-    cyan: 'border-cyan-500 bg-cyan-400/20',
-    blue: 'border-blue-500 bg-blue-400/20',
-    purple: 'border-purple-500 bg-purple-500/20',
-    red: 'border-red-500 bg-red-500/20',
-    gradient: 'border-yellow-500 bg-gradient-to-r from-yellow-500/20 to-orange-500/20',
-  };
-
-  return (
-    <div className={`rounded-lg p-4 border ${colorClasses[color]}`}>
-      <div className="font-semibold text-white">{tier}</div>
-      <div className="text-sm text-gray-400">{range}</div>
-    </div>
-  );
+function getTierName(elo: number): string {
+  if (elo >= 2400) return 'Champion';
+  if (elo >= 2200) return 'Grandmaster';
+  if (elo >= 2000) return 'Master';
+  if (elo >= 1800) return 'Diamond';
+  if (elo >= 1600) return 'Platinum';
+  if (elo >= 1400) return 'Gold';
+  if (elo >= 1200) return 'Silver';
+  return 'Bronze';
 }

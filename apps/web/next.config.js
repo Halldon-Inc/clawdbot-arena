@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
   transpilePackages: ['@clawdbot/engine', '@clawdbot/protocol'],
 
   // Enable WebAssembly support

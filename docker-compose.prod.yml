@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  web:
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_CHAIN_ID=${NEXT_PUBLIC_CHAIN_ID:-84532}
+      - NEXT_PUBLIC_BETTING_ARENA_ADDRESS=${NEXT_PUBLIC_BETTING_ARENA_ADDRESS}
+      - NEXT_PUBLIC_COMP_TOKEN_ADDRESS=${NEXT_PUBLIC_COMP_TOKEN_ADDRESS}
+
+  server:
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - HTTP_PORT=8081
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_ENDPOINT=${LOG_ENDPOINT}
+      - LOG_API_KEY=${LOG_API_KEY}
+
+  oracle:
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - WS_URL=ws://server:8080
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - RPC_URL=${RPC_URL}
+      - BETTING_ARENA_ADDRESS=${BETTING_ARENA_ADDRESS}
+      - ORACLE_PRIVATE_KEY=${ORACLE_PRIVATE_KEY}
+      - CHAIN_ID=${CHAIN_ID:-84532}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+
+  redis:
+    restart: always
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
+    volumes:
+      - redis-data:/data

@@ -1,6 +1,6 @@
 /**
  * Contract ABIs and Addresses
- * Auto-generated - do not edit manually
+ * Reads addresses from environment variables with fallbacks
  */
 
 // =============================================================================
@@ -14,8 +14,11 @@ export const CHAIN_IDS = {
 } as const;
 
 // =============================================================================
-// Contract Addresses
+// Contract Addresses (from env or defaults)
 // =============================================================================
+
+const envCompToken = process.env.NEXT_PUBLIC_COMP_TOKEN_ADDRESS as `0x${string}` | undefined;
+const envBettingArena = process.env.NEXT_PUBLIC_BETTING_ARENA_ADDRESS as `0x${string}` | undefined;
 
 export const CONTRACT_ADDRESSES: Record<number, {
   compToken: `0x${string}`;
@@ -23,13 +26,18 @@ export const CONTRACT_ADDRESSES: Record<number, {
 }> = {
   // Base Sepolia (testnet)
   [CHAIN_IDS.BASE_SEPOLIA]: {
-    compToken: '0x0000000000000000000000000000000000000000', // Update after deployment
-    bettingArena: '0x0000000000000000000000000000000000000000', // Update after deployment
+    compToken: envCompToken || '0x0000000000000000000000000000000000000000',
+    bettingArena: envBettingArena || '0x0000000000000000000000000000000000000000',
   },
   // Local Anvil
   [CHAIN_IDS.LOCAL]: {
-    compToken: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-    bettingArena: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+    compToken: envCompToken || '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+    bettingArena: envBettingArena || '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+  },
+  // Base Mainnet
+  [CHAIN_IDS.BASE_MAINNET]: {
+    compToken: envCompToken || '0x0000000000000000000000000000000000000000',
+    bettingArena: envBettingArena || '0x0000000000000000000000000000000000000000',
   },
 };
 
