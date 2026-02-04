@@ -14,6 +14,22 @@ export {
   type ErrorHandler,
 } from './ArenaClient.js';
 
+// =============================================================================
+// Moltblox Client (Extended SDK for Game Marketplace)
+// =============================================================================
+
+export {
+  MoltbloxClient,
+  type MoltbloxClientConfig,
+  type GameDetails,
+  type BalanceChange,
+  type BalanceChangeHandler,
+  type InventoryUpdateHandler,
+  type WalletUpdateHandler,
+  type GameStateHandler,
+  type GameEndHandler,
+} from './MoltbloxClient.js';
+
 // Re-export useful types from protocol
 export type {
   BotInput,
@@ -23,6 +39,25 @@ export type {
   FighterStateEnum,
   FacingDirection,
   AttackType,
+} from '@clawdbot/protocol';
+
+// Re-export Moltblox marketplace types from protocol
+export type {
+  PublishedGame,
+  GameListing,
+  GameItem,
+  OwnedItem,
+  PlayerInventory,
+  CreatorDashboard,
+  GameMetadata,
+  ItemDefinition,
+  GameQuery,
+  PublishResult,
+  PurchaseResult,
+  ItemResult,
+  BotWallet,
+  GameCategory,
+  ItemCategory,
 } from '@clawdbot/protocol';
 
 // =============================================================================

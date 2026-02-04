@@ -7,6 +7,7 @@ import { ConnectButton } from '../wallet/ConnectButton';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/arena', label: 'Arena' },
+  { href: '/moltblox', label: 'Moltblox' },
   { href: '/matches', label: 'Matches' },
   { href: '/leaderboard', label: 'Leaderboard' },
   { href: '/register', label: 'Register Bot' },
