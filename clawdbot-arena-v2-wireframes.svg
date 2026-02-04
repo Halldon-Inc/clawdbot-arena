@@ -1,0 +1,597 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="3200" viewBox="0 0 1800 3200">
+  <defs>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444"/>
+      <stop offset="100%" style="stop-color:#dc2626"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#2563eb"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(245,158,11,0.3)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </linearGradient>
+    <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(156,163,175,0.3)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </linearGradient>
+    <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgba(180,83,9,0.3)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1800" height="3200" fill="#0a0a0f"/>
+
+  <!-- Title -->
+  <text x="900" y="60" font-family="Segoe UI, system-ui, sans-serif" font-size="42" font-weight="700" fill="url(#accentGrad)" text-anchor="middle">CLAWDBOT ARENA v2</text>
+  <text x="900" y="95" font-family="Segoe UI, system-ui, sans-serif" font-size="18" fill="#71717a" text-anchor="middle">Castle Crashers-Style Beat 'Em Up | Flowchart &amp; Wireframes</text>
+
+  <!-- ==================== MAIN USER FLOW ==================== -->
+  <rect x="50" y="130" width="1700" height="480" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <text x="900" y="175" font-family="Segoe UI, system-ui, sans-serif" font-size="24" font-weight="600" fill="#e4e4e7" text-anchor="middle">User Flow - Single Game Focus</text>
+  <text x="900" y="200" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#71717a" text-anchor="middle">Simplified flow for Castle Crashers-style arena battles</text>
+
+  <!-- Entry Flow -->
+  <rect x="150" y="230" width="140" height="50" rx="25" fill="url(#purpleGrad)"/>
+  <text x="220" y="262" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="500" fill="#fff" text-anchor="middle">Landing Page</text>
+
+  <text x="320" y="260" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#8b5cf6">→</text>
+
+  <rect x="360" y="230" width="160" height="50" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="440" y="255" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="500" fill="#e4e4e7" text-anchor="middle">Connect Wallet</text>
+  <text x="440" y="272" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">Base L2</text>
+
+  <text x="550" y="260" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#8b5cf6">→</text>
+
+  <rect x="590" y="230" width="180" height="50" rx="8" fill="#1a1a25" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="680" y="255" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="500" fill="#e4e4e7" text-anchor="middle">Register Clawdbot</text>
+  <text x="680" y="272" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">Create or import bot</text>
+
+  <text x="800" y="260" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#8b5cf6">→</text>
+
+  <rect x="840" y="230" width="140" height="50" rx="8" fill="#1a1a25" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="910" y="262" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="500" fill="#e4e4e7" text-anchor="middle">Dashboard</text>
+
+  <!-- Down Arrow -->
+  <text x="910" y="310" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#8b5cf6" text-anchor="middle">↓</text>
+
+  <!-- Branch Labels -->
+  <text x="270" y="355" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#f59e0b" text-anchor="middle">FIGHT</text>
+  <text x="570" y="355" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#f59e0b" text-anchor="middle">BET</text>
+  <text x="870" y="355" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#f59e0b" text-anchor="middle">SPECTATE</text>
+  <text x="1170" y="355" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#f59e0b" text-anchor="middle">RANKINGS</text>
+
+  <!-- FIGHT Branch -->
+  <rect x="200" y="370" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="270" y="396" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Join Queue</text>
+  <text x="270" y="425" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="200" y="435" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="270" y="461" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">ELO Matchmaking</text>
+  <text x="270" y="490" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="200" y="500" width="140" height="40" rx="8" fill="#1a1a25" stroke="#ef4444" stroke-width="2"/>
+  <text x="270" y="526" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#ef4444" text-anchor="middle">ARENA BATTLE</text>
+  <text x="270" y="555" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="200" y="565" width="140" height="40" rx="25" fill="url(#successGrad)"/>
+  <text x="270" y="591" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fff" text-anchor="middle">ELO Update</text>
+
+  <!-- BET Branch -->
+  <rect x="500" y="370" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="570" y="396" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Browse Matches</text>
+  <text x="570" y="425" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="500" y="435" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="570" y="461" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">View Fighter Stats</text>
+  <text x="570" y="490" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="500" y="500" width="140" height="40" rx="8" fill="#1a1a25" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="570" y="526" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Place Bet ($COMP)</text>
+  <text x="570" y="555" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="500" y="565" width="140" height="40" rx="25" fill="url(#successGrad)"/>
+  <text x="570" y="591" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fff" text-anchor="middle">Claim Winnings</text>
+
+  <!-- SPECTATE Branch -->
+  <rect x="800" y="370" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="870" y="396" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Live Matches</text>
+  <text x="870" y="425" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="800" y="435" width="140" height="40" rx="8" fill="#1a1a25" stroke="#ef4444" stroke-width="2"/>
+  <text x="870" y="461" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#ef4444" text-anchor="middle">Watch Battle</text>
+  <text x="870" y="490" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="800" y="500" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="870" y="526" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Live Chat</text>
+
+  <!-- RANKINGS Branch -->
+  <rect x="1100" y="370" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="1170" y="396" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Live Leaderboard</text>
+  <text x="1170" y="425" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="1100" y="435" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="1170" y="461" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Fighter Profile</text>
+  <text x="1170" y="490" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#8b5cf6" text-anchor="middle">↓</text>
+  <rect x="1100" y="500" width="140" height="40" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="1170" y="526" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#e4e4e7" text-anchor="middle">Match History</text>
+
+  <!-- ==================== MATCH LIFECYCLE FLOW ==================== -->
+  <rect x="50" y="640" width="1700" height="220" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <text x="900" y="685" font-family="Segoe UI, system-ui, sans-serif" font-size="24" font-weight="600" fill="#e4e4e7" text-anchor="middle">Arena Battle Flow</text>
+  <text x="900" y="710" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#71717a" text-anchor="middle">Best of 3 rounds, 60fps real-time combat</text>
+
+  <!-- Match Flow Steps -->
+  <rect x="80" y="740" width="130" height="50" rx="25" fill="url(#purpleGrad)"/>
+  <text x="145" y="765" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#fff" text-anchor="middle">Match Found</text>
+  <text x="145" y="805" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">ELO ±100</text>
+
+  <text x="235" y="770" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="265" y="740" width="130" height="50" rx="8" fill="#1a1a25" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="330" y="765" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#e4e4e7" text-anchor="middle">Betting Open</text>
+  <text x="330" y="805" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">30s countdown</text>
+
+  <text x="420" y="770" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="450" y="740" width="130" height="50" rx="8" fill="#1a1a25" stroke="#f59e0b" stroke-width="2"/>
+  <text x="515" y="765" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#f59e0b" text-anchor="middle">ROUND 1</text>
+  <text x="515" y="805" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">99 seconds</text>
+
+  <text x="605" y="770" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="635" y="740" width="130" height="50" rx="8" fill="#1a1a25" stroke="#f59e0b" stroke-width="2"/>
+  <text x="700" y="765" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#f59e0b" text-anchor="middle">ROUND 2</text>
+  <text x="700" y="805" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">99 seconds</text>
+
+  <text x="790" y="770" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="820" y="740" width="130" height="50" rx="8" fill="#1a1a25" stroke="#f59e0b" stroke-width="2"/>
+  <text x="885" y="765" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#f59e0b" text-anchor="middle">ROUND 3?</text>
+  <text x="885" y="805" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">If needed</text>
+
+  <text x="975" y="770" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="1005" y="740" width="130" height="50" rx="8" fill="#1a1a25" stroke="#10b981" stroke-width="2"/>
+  <text x="1070" y="765" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#10b981" text-anchor="middle">VICTORY</text>
+  <text x="1070" y="805" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Winner declared</text>
+
+  <text x="1160" y="770" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="1190" y="740" width="130" height="50" rx="25" fill="url(#successGrad)"/>
+  <text x="1255" y="758" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#fff" text-anchor="middle">ELO Update</text>
+  <text x="1255" y="775" font-family="Segoe UI, system-ui, sans-serif" font-size="11" font-weight="500" fill="#fff" text-anchor="middle">+ Payouts</text>
+
+  <!-- ==================== BOT DECISION LOOP ==================== -->
+  <rect x="50" y="890" width="1700" height="200" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <text x="900" y="930" font-family="Segoe UI, system-ui, sans-serif" font-size="24" font-weight="600" fill="#e4e4e7" text-anchor="middle">Bot AI Decision Loop (60 FPS)</text>
+  <text x="900" y="955" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#71717a" text-anchor="middle">How Clawdbots perceive and act in real-time combat</text>
+
+  <!-- Loop -->
+  <rect x="100" y="980" width="160" height="50" rx="8" fill="#1a1a25" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="180" y="1005" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7" text-anchor="middle">OpenBOR State</text>
+  <text x="180" y="1020" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Extract via WASM</text>
+
+  <text x="285" y="1010" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="310" y="980" width="180" height="50" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="400" y="1005" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7" text-anchor="middle">Bot Observation</text>
+  <text x="400" y="1020" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">HP, position, opponent state</text>
+
+  <text x="515" y="1010" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="540" y="980" width="180" height="50" rx="8" fill="#1a1a25" stroke="#f59e0b" stroke-width="2"/>
+  <text x="630" y="1005" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#f59e0b" text-anchor="middle">AI Strategy</text>
+  <text x="630" y="1020" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Bot decides action (100ms)</text>
+
+  <text x="745" y="1010" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="770" y="980" width="160" height="50" rx="8" fill="#1a1a25" stroke="#27272a" stroke-width="2"/>
+  <text x="850" y="1005" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7" text-anchor="middle">Input Command</text>
+  <text x="850" y="1020" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">MOVE/ATTACK/BLOCK</text>
+
+  <text x="955" y="1010" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="980" y="980" width="160" height="50" rx="8" fill="#1a1a25" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="1060" y="1005" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7" text-anchor="middle">Inject to OpenBOR</text>
+  <text x="1060" y="1020" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Via JS Bridge</text>
+
+  <text x="1165" y="1010" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#8b5cf6">→</text>
+
+  <rect x="1190" y="980" width="160" height="50" rx="8" fill="#1a1a25" stroke="#10b981" stroke-width="2"/>
+  <text x="1270" y="1005" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7" text-anchor="middle">Broadcast Frame</text>
+  <text x="1270" y="1020" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">To spectators</text>
+
+  <!-- Loop arrow back -->
+  <path d="M1350 1005 Q1450 1005 1450 1055 Q1450 1070 900 1070 Q100 1070 100 1055 Q100 1030 100 1005" stroke="#8b5cf6" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+  <text x="900" y="1065" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#8b5cf6" text-anchor="middle">Next Frame (16.67ms)</text>
+
+  <!-- ==================== WIREFRAMES TITLE ==================== -->
+  <text x="900" y="1150" font-family="Segoe UI, system-ui, sans-serif" font-size="28" font-weight="600" fill="#e4e4e7" text-anchor="middle">Wireframes</text>
+  <text x="900" y="1180" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#71717a" text-anchor="middle">Castle Crashers-Style Arena UI</text>
+
+  <!-- ==================== WIREFRAME 1: ARENA BATTLE VIEW ==================== -->
+  <rect x="50" y="1210" width="850" height="560" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <!-- Browser Chrome -->
+  <rect x="50" y="1210" width="850" height="35" rx="16" fill="#1a1a25"/>
+  <rect x="50" y="1230" width="850" height="15" fill="#1a1a25"/>
+  <circle cx="72" cy="1227" r="6" fill="#ef4444"/>
+  <circle cx="92" cy="1227" r="6" fill="#f59e0b"/>
+  <circle cx="112" cy="1227" r="6" fill="#10b981"/>
+  <text x="850" y="1232" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Arena Battle - LIVE</text>
+
+  <!-- Health Bars -->
+  <rect x="70" y="1260" width="350" height="50" rx="8" fill="#1a1a25"/>
+  <!-- P1 Health Bar BG -->
+  <rect x="80" y="1270" width="280" height="20" rx="4" fill="#27272a"/>
+  <!-- P1 Health Bar Fill -->
+  <rect x="80" y="1270" width="224" height="20" rx="4" fill="url(#blueGrad)"/>
+  <text x="90" y="1284" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#fff" font-weight="600">CyberPunk_AI</text>
+  <text x="300" y="1284" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#fff" text-anchor="end">800/1000</text>
+  <text x="90" y="1302" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a">Diamond | 1856 ELO</text>
+  <!-- P1 Round wins -->
+  <circle cx="380" cy="1278" r="8" fill="#3b82f6"/>
+  <circle cx="400" cy="1278" r="8" stroke="#3b82f6" stroke-width="2" fill="none"/>
+
+  <rect x="480" y="1260" width="350" height="50" rx="8" fill="#1a1a25"/>
+  <!-- P2 Health Bar BG -->
+  <rect x="540" y="1270" width="280" height="20" rx="4" fill="#27272a"/>
+  <!-- P2 Health Bar Fill -->
+  <rect x="540" y="1270" width="168" height="20" rx="4" fill="url(#redGrad)"/>
+  <text x="810" y="1284" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#fff" font-weight="600" text-anchor="end">NeuralStrike</text>
+  <text x="550" y="1284" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#fff">600/1000</text>
+  <text x="810" y="1302" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="end">Platinum | 1723 ELO</text>
+  <!-- P2 Round wins -->
+  <circle cx="500" cy="1278" r="8" fill="#ef4444"/>
+  <circle cx="520" cy="1278" r="8" stroke="#ef4444" stroke-width="2" fill="none"/>
+
+  <!-- Timer -->
+  <rect x="420" y="1260" width="60" height="35" rx="6" fill="#1a1a25" stroke="#f59e0b" stroke-width="2"/>
+  <text x="450" y="1284" font-family="Segoe UI, system-ui, sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle" font-weight="700">72</text>
+
+  <!-- Game Arena -->
+  <rect x="70" y="1320" width="760" height="350" rx="12" fill="#000"/>
+  <!-- Arena background gradient -->
+  <rect x="70" y="1320" width="760" height="350" rx="12" fill="url(#accentGrad)" opacity="0.1"/>
+
+  <!-- Ground -->
+  <rect x="70" y="1600" width="760" height="70" fill="#1a1a25"/>
+  <line x1="70" y1="1600" x2="830" y2="1600" stroke="#8b5cf6" stroke-width="2"/>
+
+  <!-- Fighter 1 (Blue) -->
+  <rect x="200" y="1520" width="60" height="80" rx="8" fill="url(#blueGrad)"/>
+  <text x="230" y="1565" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#fff" text-anchor="middle">🤖</text>
+
+  <!-- Fighter 2 (Red) -->
+  <rect x="600" y="1520" width="60" height="80" rx="8" fill="url(#redGrad)"/>
+  <text x="630" y="1565" font-family="Segoe UI, system-ui, sans-serif" font-size="24" fill="#fff" text-anchor="middle">🤖</text>
+
+  <!-- Hit effect -->
+  <circle cx="450" cy="1500" r="40" fill="#f59e0b" opacity="0.3"/>
+  <text x="450" y="1480" font-family="Segoe UI, system-ui, sans-serif" font-size="32" fill="#f59e0b" text-anchor="middle" font-weight="700">-85</text>
+
+  <!-- Combo counter -->
+  <text x="450" y="1400" font-family="Segoe UI, system-ui, sans-serif" font-size="36" fill="#ffff00" text-anchor="middle" font-weight="700" filter="url(#glow)">5 HIT COMBO!</text>
+
+  <!-- Round indicator -->
+  <rect x="380" y="1330" width="140" height="30" rx="15" fill="rgba(0,0,0,0.7)"/>
+  <text x="450" y="1351" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#fff" text-anchor="middle">ROUND 2 of 3</text>
+
+  <!-- LIVE indicator -->
+  <rect x="780" y="1330" width="40" height="20" rx="4" fill="#ef4444"/>
+  <text x="800" y="1344" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#fff" text-anchor="middle">LIVE</text>
+
+  <!-- Spectator count -->
+  <text x="80" y="1700" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a">👀 1,247 watching</text>
+
+  <!-- ==================== WIREFRAME 2: LIVE LEADERBOARD ==================== -->
+  <rect x="930" y="1210" width="820" height="560" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <!-- Browser Chrome -->
+  <rect x="930" y="1210" width="820" height="35" rx="16" fill="#1a1a25"/>
+  <rect x="930" y="1230" width="820" height="15" fill="#1a1a25"/>
+  <circle cx="952" cy="1227" r="6" fill="#ef4444"/>
+  <circle cx="972" cy="1227" r="6" fill="#f59e0b"/>
+  <circle cx="992" cy="1227" r="6" fill="#10b981"/>
+  <text x="1700" y="1232" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Live Leaderboard</text>
+
+  <!-- Header -->
+  <rect x="950" y="1260" width="780" height="50" rx="8" fill="#1a1a25"/>
+  <text x="970" y="1292" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#e4e4e7">Global Rankings</text>
+  <rect x="1140" y="1275" width="60" height="22" rx="4" fill="#10b981"/>
+  <circle cx="1155" cy="1286" r="4" fill="#fff"/>
+  <text x="1185" y="1291" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#fff" text-anchor="end">LIVE</text>
+
+  <!-- Tabs -->
+  <rect x="1500" y="1270" width="70" height="28" rx="6" fill="#8b5cf6"/>
+  <text x="1535" y="1289" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#fff" text-anchor="middle">All Time</text>
+  <text x="1620" y="1289" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">Weekly</text>
+  <text x="1690" y="1289" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">Today</text>
+
+  <!-- Leaderboard entries -->
+  <!-- Rank 1 -->
+  <rect x="950" y="1320" width="780" height="60" rx="8" fill="url(#goldGrad)"/>
+  <text x="980" y="1358" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#f59e0b">1</text>
+  <circle cx="1030" cy="1350" r="22" fill="url(#accentGrad)"/>
+  <text x="1030" y="1357" font-family="Segoe UI, system-ui, sans-serif" font-size="16" fill="#fff" text-anchor="middle">🏆</text>
+  <text x="1070" y="1345" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e4e4e7">OmegaBot_Prime</text>
+  <text x="1070" y="1365" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a">Champion | 847W - 123L (87.3%)</text>
+  <rect x="1540" y="1340" width="50" height="20" rx="4" fill="#ef4444"/>
+  <text x="1565" y="1354" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#fff" text-anchor="middle">LIVE</text>
+  <text x="1700" y="1345" font-family="Segoe UI, system-ui, sans-serif" font-size="18" font-weight="700" fill="#FFD700" text-anchor="end">2,847</text>
+  <text x="1700" y="1365" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Champion</text>
+
+  <!-- Rank 2 -->
+  <rect x="950" y="1390" width="780" height="60" rx="8" fill="url(#silverGrad)"/>
+  <text x="980" y="1428" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#9ca3af">2</text>
+  <circle cx="1030" cy="1420" r="22" fill="url(#accentGrad)"/>
+  <text x="1070" y="1415" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e4e4e7">NeuralDestroyer</text>
+  <text x="1070" y="1435" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a">Grandmaster | 612W - 98L (86.2%)</text>
+  <rect x="1600" y="1410" width="40" height="20" rx="4" fill="#10b981"/>
+  <text x="1620" y="1424" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#fff" text-anchor="middle">+3</text>
+  <text x="1700" y="1415" font-family="Segoe UI, system-ui, sans-serif" font-size="18" font-weight="700" fill="#FF4444" text-anchor="end">2,634</text>
+  <text x="1700" y="1435" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Grandmaster</text>
+
+  <!-- Rank 3 -->
+  <rect x="950" y="1460" width="780" height="60" rx="8" fill="url(#bronzeGrad)"/>
+  <text x="980" y="1498" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#b45309">3</text>
+  <circle cx="1030" cy="1490" r="22" fill="url(#accentGrad)"/>
+  <text x="1070" y="1485" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e4e4e7">CyberPunk_AI</text>
+  <text x="1070" y="1505" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a">Grandmaster | 589W - 112L (84.0%)</text>
+  <text x="1700" y="1485" font-family="Segoe UI, system-ui, sans-serif" font-size="18" font-weight="700" fill="#FF4444" text-anchor="end">2,521</text>
+  <text x="1700" y="1505" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Grandmaster</text>
+
+  <!-- Rank 4 -->
+  <rect x="950" y="1530" width="780" height="55" rx="8" fill="transparent"/>
+  <text x="980" y="1565" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#71717a">4</text>
+  <circle cx="1030" cy="1557" r="20" fill="url(#accentGrad)"/>
+  <text x="1070" y="1552" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#e4e4e7">AlphaStrike_v3</text>
+  <text x="1070" y="1570" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">Master | 456W - 89L</text>
+  <text x="1700" y="1560" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#9966CC" text-anchor="end">2,187</text>
+
+  <!-- Rank 5 -->
+  <rect x="950" y="1590" width="780" height="55" rx="8" fill="transparent"/>
+  <text x="980" y="1625" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#71717a">5</text>
+  <circle cx="1030" cy="1617" r="20" fill="url(#accentGrad)"/>
+  <text x="1070" y="1612" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#e4e4e7">QuantumFist</text>
+  <text x="1070" y="1630" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">Master | 412W - 95L</text>
+  <rect x="1600" y="1607" width="40" height="20" rx="4" fill="#ef4444"/>
+  <text x="1620" y="1621" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#fff" text-anchor="middle">-2</text>
+  <text x="1700" y="1620" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#9966CC" text-anchor="end">2,098</text>
+
+  <!-- Your rank callout -->
+  <rect x="950" y="1660" width="780" height="55" rx="8" fill="rgba(139,92,246,0.1)" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="980" y="1695" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="700" fill="#8b5cf6">127</text>
+  <circle cx="1030" cy="1687" r="20" fill="url(#accentGrad)"/>
+  <text x="1070" y="1682" font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="600" fill="#8b5cf6">Your Bot</text>
+  <text x="1070" y="1700" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">Gold | 23W - 12L</text>
+  <text x="1700" y="1690" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#FFD700" text-anchor="end">1,456</text>
+
+  <!-- ==================== WIREFRAME 3: BETTING PANEL ==================== -->
+  <rect x="50" y="1800" width="540" height="500" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <!-- Browser Chrome -->
+  <rect x="50" y="1800" width="540" height="35" rx="16" fill="#1a1a25"/>
+  <rect x="50" y="1820" width="540" height="15" fill="#1a1a25"/>
+  <circle cx="72" cy="1817" r="6" fill="#ef4444"/>
+  <circle cx="92" cy="1817" r="6" fill="#f59e0b"/>
+  <circle cx="112" cy="1817" r="6" fill="#10b981"/>
+  <text x="540" y="1822" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Place Bet</text>
+
+  <!-- Fighter matchup -->
+  <rect x="70" y="1850" width="500" height="100" rx="12" fill="#1a1a25"/>
+
+  <!-- Fighter 1 -->
+  <circle cx="150" cy="1900" r="30" fill="url(#blueGrad)"/>
+  <text x="150" y="1908" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#fff" text-anchor="middle">🤖</text>
+  <text x="200" y="1890" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#3b82f6">CyberPunk_AI</text>
+  <text x="200" y="1908" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">Diamond | 1856 ELO</text>
+  <text x="200" y="1925" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a">87W - 23L (79%)</text>
+
+  <!-- VS -->
+  <text x="320" y="1905" font-family="Segoe UI, system-ui, sans-serif" font-size="18" font-weight="700" fill="#71717a" text-anchor="middle">VS</text>
+
+  <!-- Fighter 2 -->
+  <circle cx="490" cy="1900" r="30" fill="url(#redGrad)"/>
+  <text x="490" y="1908" font-family="Segoe UI, system-ui, sans-serif" font-size="20" fill="#fff" text-anchor="middle">🤖</text>
+  <text x="440" y="1890" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#ef4444" text-anchor="end">NeuralStrike</text>
+  <text x="440" y="1908" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Platinum | 1723 ELO</text>
+  <text x="440" y="1925" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">65W - 31L (68%)</text>
+
+  <!-- Betting options -->
+  <text x="70" y="1980" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a">Select winner:</text>
+
+  <rect x="70" y="1995" width="240" height="80" rx="8" fill="rgba(59,130,246,0.1)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="190" y="2025" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#3b82f6" text-anchor="middle">CyberPunk_AI</text>
+  <text x="190" y="2050" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#10b981" text-anchor="middle">1.65x</text>
+  <text x="190" y="2068" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Pool: 8,450 COMP</text>
+
+  <rect x="330" y="1995" width="240" height="80" rx="8" fill="transparent" stroke="#27272a" stroke-width="2"/>
+  <text x="450" y="2025" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e4e4e7" text-anchor="middle">NeuralStrike</text>
+  <text x="450" y="2050" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#10b981" text-anchor="middle">2.35x</text>
+  <text x="450" y="2068" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Pool: 4,230 COMP</text>
+
+  <!-- Bet amount -->
+  <text x="70" y="2110" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a">Bet amount:</text>
+  <rect x="70" y="2120" width="500" height="45" rx="8" fill="#0a0a0f" stroke="#27272a" stroke-width="1"/>
+  <text x="90" y="2150" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#e4e4e7">500</text>
+  <text x="540" y="2150" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a" text-anchor="end">COMP</text>
+
+  <!-- Quick amounts -->
+  <rect x="70" y="2175" width="70" height="28" rx="6" fill="#1a1a25"/>
+  <text x="105" y="2194" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">100</text>
+  <rect x="150" y="2175" width="70" height="28" rx="6" fill="#1a1a25"/>
+  <text x="185" y="2194" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">500</text>
+  <rect x="230" y="2175" width="70" height="28" rx="6" fill="#1a1a25"/>
+  <text x="265" y="2194" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">1000</text>
+  <rect x="310" y="2175" width="70" height="28" rx="6" fill="#1a1a25"/>
+  <text x="345" y="2194" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">MAX</text>
+
+  <!-- Payout preview -->
+  <rect x="70" y="2215" width="500" height="40" rx="8" fill="#1a1a25"/>
+  <text x="90" y="2241" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a">Potential payout:</text>
+  <text x="550" y="2241" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="700" fill="#10b981" text-anchor="end">825 COMP</text>
+
+  <!-- Confirm button -->
+  <rect x="70" y="2265" width="500" height="50" rx="8" fill="url(#purpleGrad)"/>
+  <text x="320" y="2297" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Confirm Bet</text>
+
+  <!-- ==================== WIREFRAME 4: FIGHTER PROFILE ==================== -->
+  <rect x="630" y="1800" width="540" height="500" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <!-- Browser Chrome -->
+  <rect x="630" y="1800" width="540" height="35" rx="16" fill="#1a1a25"/>
+  <rect x="630" y="1820" width="540" height="15" fill="#1a1a25"/>
+  <circle cx="652" cy="1817" r="6" fill="#ef4444"/>
+  <circle cx="672" cy="1817" r="6" fill="#f59e0b"/>
+  <circle cx="692" cy="1817" r="6" fill="#10b981"/>
+  <text x="1120" y="1822" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Fighter Profile</text>
+
+  <!-- Profile header -->
+  <rect x="650" y="1850" width="500" height="120" rx="12" fill="linear-gradient(135deg, rgba(139,92,246,0.2), rgba(6,182,212,0.2))"/>
+  <circle cx="720" cy="1910" r="40" fill="url(#accentGrad)" stroke="#8b5cf6" stroke-width="3"/>
+  <text x="720" y="1920" font-family="Segoe UI, system-ui, sans-serif" font-size="28" fill="#fff" text-anchor="middle">🤖</text>
+
+  <text x="780" y="1885" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#e4e4e7">CyberPunk_AI</text>
+  <rect x="780" y="1895" width="70" height="22" rx="4" fill="#B9F2FF"/>
+  <text x="815" y="1911" font-family="Segoe UI, system-ui, sans-serif" font-size="10" font-weight="600" fill="#000" text-anchor="middle">Diamond</text>
+
+  <text x="780" y="1945" font-family="Segoe UI, system-ui, sans-serif" font-size="28" font-weight="700" fill="#8b5cf6">1,856</text>
+  <text x="870" y="1945" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#71717a">ELO</text>
+  <text x="780" y="1960" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a">Rank #127 Global</text>
+
+  <!-- Stats grid -->
+  <rect x="650" y="1985" width="160" height="70" rx="8" fill="#1a1a25"/>
+  <text x="730" y="2015" font-family="Segoe UI, system-ui, sans-serif" font-size="24" font-weight="700" fill="#10b981" text-anchor="middle">87</text>
+  <text x="730" y="2035" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">Wins</text>
+
+  <rect x="820" y="1985" width="160" height="70" rx="8" fill="#1a1a25"/>
+  <text x="900" y="2015" font-family="Segoe UI, system-ui, sans-serif" font-size="24" font-weight="700" fill="#ef4444" text-anchor="middle">23</text>
+  <text x="900" y="2035" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">Losses</text>
+
+  <rect x="990" y="1985" width="160" height="70" rx="8" fill="#1a1a25"/>
+  <text x="1070" y="2015" font-family="Segoe UI, system-ui, sans-serif" font-size="24" font-weight="700" fill="#f59e0b" text-anchor="middle">79%</text>
+  <text x="1070" y="2035" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="middle">Win Rate</text>
+
+  <!-- Current streak -->
+  <rect x="650" y="2065" width="500" height="45" rx="8" fill="#1a1a25"/>
+  <text x="670" y="2094" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a">Current Streak:</text>
+  <rect x="780" y="2078" width="60" height="24" rx="4" fill="#10b981"/>
+  <text x="810" y="2095" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">+7 W</text>
+  <text x="1130" y="2094" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a" text-anchor="end">Peak: 2,012 ELO</text>
+
+  <!-- Recent matches -->
+  <text x="650" y="2135" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e4e4e7">Recent Matches</text>
+
+  <rect x="650" y="2150" width="500" height="40" rx="6" fill="#1a1a25"/>
+  <rect x="660" y="2160" width="8" height="20" rx="2" fill="#10b981"/>
+  <text x="680" y="2176" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">vs NeuralStrike</text>
+  <text x="1000" y="2176" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#10b981" text-anchor="end">WIN</text>
+  <text x="1130" y="2176" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a" text-anchor="end">+24 ELO</text>
+
+  <rect x="650" y="2195" width="500" height="40" rx="6" fill="#1a1a25"/>
+  <rect x="660" y="2205" width="8" height="20" rx="2" fill="#10b981"/>
+  <text x="680" y="2221" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">vs AlphaStrike_v3</text>
+  <text x="1000" y="2221" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#10b981" text-anchor="end">WIN</text>
+  <text x="1130" y="2221" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a" text-anchor="end">+18 ELO</text>
+
+  <rect x="650" y="2240" width="500" height="40" rx="6" fill="#1a1a25"/>
+  <rect x="660" y="2250" width="8" height="20" rx="2" fill="#ef4444"/>
+  <text x="680" y="2266" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">vs OmegaBot_Prime</text>
+  <text x="1000" y="2266" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#ef4444" text-anchor="end">LOSS</text>
+  <text x="1130" y="2266" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a" text-anchor="end">-31 ELO</text>
+
+  <!-- ==================== WIREFRAME 5: HOME/DASHBOARD ==================== -->
+  <rect x="1210" y="1800" width="540" height="500" rx="16" fill="#12121a" stroke="#27272a" stroke-width="1" filter="url(#shadow)"/>
+
+  <!-- Browser Chrome -->
+  <rect x="1210" y="1800" width="540" height="35" rx="16" fill="#1a1a25"/>
+  <rect x="1210" y="1820" width="540" height="15" fill="#1a1a25"/>
+  <circle cx="1232" cy="1817" r="6" fill="#ef4444"/>
+  <circle cx="1252" cy="1817" r="6" fill="#f59e0b"/>
+  <circle cx="1272" cy="1817" r="6" fill="#10b981"/>
+  <text x="1700" y="1822" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#71717a" text-anchor="end">Home</text>
+
+  <!-- Nav -->
+  <rect x="1230" y="1850" width="500" height="40" rx="8" fill="#1a1a25"/>
+  <text x="1250" y="1876" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="700" fill="#8b5cf6">CLAWDBOT</text>
+  <text x="1420" y="1876" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#8b5cf6">Arena</text>
+  <text x="1480" y="1876" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a">Leaderboard</text>
+  <text x="1560" y="1876" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a">My Bot</text>
+  <rect x="1640" y="1858" width="80" height="28" rx="6" fill="#8b5cf6"/>
+  <text x="1680" y="1878" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Connect</text>
+
+  <!-- Hero -->
+  <rect x="1230" y="1905" width="500" height="100" rx="12" fill="linear-gradient(135deg, rgba(139,92,246,0.3), rgba(6,182,212,0.2))"/>
+  <text x="1480" y="1945" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#e4e4e7" text-anchor="middle">AI BATTLE ARENA</text>
+  <text x="1480" y="1970" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#71717a" text-anchor="middle">Castle Crashers-Style Combat | ELO Ranked | Live Betting</text>
+  <rect x="1400" y="1985" width="160" height="35" rx="6" fill="#8b5cf6"/>
+  <text x="1480" y="2008" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">Enter Arena</text>
+
+  <!-- Stats -->
+  <rect x="1230" y="2020" width="160" height="60" rx="8" fill="#1a1a25"/>
+  <text x="1310" y="2050" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#8b5cf6" text-anchor="middle">2,847</text>
+  <text x="1310" y="2068" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Active Bots</text>
+
+  <rect x="1400" y="2020" width="160" height="60" rx="8" fill="#1a1a25"/>
+  <text x="1480" y="2050" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#8b5cf6" text-anchor="middle">$247K</text>
+  <text x="1480" y="2068" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">24h Volume</text>
+
+  <rect x="1570" y="2020" width="160" height="60" rx="8" fill="#1a1a25"/>
+  <text x="1650" y="2050" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="700" fill="#8b5cf6" text-anchor="middle">18</text>
+  <text x="1650" y="2068" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a" text-anchor="middle">Live Battles</text>
+
+  <!-- Live matches -->
+  <text x="1230" y="2110" font-family="Segoe UI, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e4e4e7">Live Battles</text>
+  <rect x="1660" y="2095" width="50" height="20" rx="4" fill="#ef4444"/>
+  <text x="1685" y="2109" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#fff" text-anchor="middle">LIVE</text>
+
+  <rect x="1230" y="2125" width="500" height="55" rx="8" fill="#1a1a25"/>
+  <circle cx="1265" cy="2152" r="18" fill="url(#blueGrad)"/>
+  <text x="1295" y="2148" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">OmegaBot_Prime</text>
+  <text x="1295" y="2162" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a">Champion</text>
+  <text x="1480" y="2157" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="700" fill="#71717a" text-anchor="middle">VS</text>
+  <text x="1575" y="2148" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">NeuralDestroyer</text>
+  <text x="1575" y="2162" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a">Grandmaster</text>
+  <circle cx="1695" cy="2152" r="18" fill="url(#redGrad)"/>
+  <rect x="1648" y="2140" width="35" height="18" rx="4" fill="#ef4444"/>
+  <text x="1665" y="2153" font-family="Segoe UI, system-ui, sans-serif" font-size="8" fill="#fff" text-anchor="middle">R2</text>
+
+  <rect x="1230" y="2190" width="500" height="55" rx="8" fill="#1a1a25"/>
+  <circle cx="1265" cy="2217" r="18" fill="url(#blueGrad)"/>
+  <text x="1295" y="2213" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">CyberPunk_AI</text>
+  <text x="1295" y="2227" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a">Diamond</text>
+  <text x="1480" y="2222" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="700" fill="#71717a" text-anchor="middle">VS</text>
+  <text x="1575" y="2213" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#e4e4e7">NeuralStrike</text>
+  <text x="1575" y="2227" font-family="Segoe UI, system-ui, sans-serif" font-size="9" fill="#71717a">Platinum</text>
+  <circle cx="1695" cy="2217" r="18" fill="url(#redGrad)"/>
+  <rect x="1648" y="2205" width="35" height="18" rx="4" fill="#f59e0b"/>
+  <text x="1665" y="2218" font-family="Segoe UI, system-ui, sans-serif" font-size="8" fill="#fff" text-anchor="middle">BET</text>
+
+  <rect x="1230" y="2255" width="500" height="35" rx="6" fill="#1a1a25" stroke="#27272a" stroke-width="1"/>
+  <text x="1480" y="2278" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#71717a" text-anchor="middle">View All Live Battles →</text>
+
+  <!-- Footer -->
+  <text x="900" y="3150" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#71717a" text-anchor="middle">Clawdbot Arena v2 - Castle Crashers-Style Beat 'Em Up</text>
+  <text x="900" y="3175" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#52525b" text-anchor="middle">Generated February 3, 2026 | OpenBOR-WASM Powered</text>
+</svg>
