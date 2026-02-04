@@ -5,7 +5,8 @@
  * Handles WebSocket connections, frame buffering, and replay support.
  */
 
-import type { GameState, GameEvent } from '@clawdbot/protocol';
+import type { GameState } from '@clawdbot/protocol';
+import type { GameEvent } from '../interfaces/UGI';
 
 // =============================================================================
 // Types

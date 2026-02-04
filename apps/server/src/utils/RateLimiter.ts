@@ -53,9 +53,9 @@ export class RateLimiter {
   private configs: Record<string, RateLimitConfig>;
   private cleanupTimer: NodeJS.Timeout | null = null;
 
-  constructor(customConfigs?: Partial<Record<string, RateLimitConfig>>) {
+  constructor(customConfigs?: Record<string, RateLimitConfig>) {
     this.limits = new Map();
-    this.configs = { ...DEFAULT_CONFIGS, ...customConfigs };
+    this.configs = { ...DEFAULT_CONFIGS, ...(customConfigs ?? {}) };
 
     // Clean up old entries periodically
     this.cleanupTimer = setInterval(() => this.cleanup(), 60000);

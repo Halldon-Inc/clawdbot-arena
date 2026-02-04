@@ -18,9 +18,7 @@ const STATE_TO_ANIM: Record<FighterStateEnum, string> = {
   knockdown: 'hit',
   ko: 'ko',
   blocking: 'idle',
-  getup: 'idle',
-  landing: 'idle',
-  teching: 'idle',
+  getting_up: 'idle',
 };
 
 export class FighterSprite extends Phaser.GameObjects.Container {
@@ -97,8 +95,8 @@ export class FighterSprite extends Phaser.GameObjects.Container {
    * Update target state from server
    */
   setTargetState(state: FighterState): void {
-    this.targetX = this.scaleX(state.x);
-    this.targetY = this.scaleY(state.y);
+    this.targetX = this.gameToScreenX(state.x);
+    this.targetY = this.gameToScreenY(state.y);
     this.previousState = this.currentState;
     this.currentState = state.state;
 
@@ -173,7 +171,7 @@ export class FighterSprite extends Phaser.GameObjects.Container {
   /**
    * Scale X coordinate from game space to screen space
    */
-  private scaleX(gameX: number): number {
+  private gameToScreenX(gameX: number): number {
     // Game coordinates: 50-1870
     // Screen coordinates: 50-1230
     return 50 + ((gameX - 50) / (1870 - 50)) * (1230 - 50);
@@ -182,7 +180,7 @@ export class FighterSprite extends Phaser.GameObjects.Container {
   /**
    * Scale Y coordinate from game space to screen space
    */
-  private scaleY(gameY: number): number {
+  private gameToScreenY(gameY: number): number {
     // Game coordinates: 800 = ground
     // Screen coordinates: 550 = ground
     return gameY - 800 + 550;

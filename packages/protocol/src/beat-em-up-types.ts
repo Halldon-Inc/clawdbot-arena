@@ -335,6 +335,8 @@ export type MatchmakingResult = z.infer<typeof MatchmakingResultSchema>;
 export const ArenaGameConfigSchema = z.object({
   gameType: z.literal('beat_em_up'),
   maxPlayers: z.literal(2),
+  turnBased: z.literal(false).default(false), // Real-time game
+  turnTimeout: z.number().default(100), // Same as decisionTimeoutMs
   roundsToWin: z.number().default(2), // Best of 3
   roundTimeSeconds: z.number().default(99),
   startingHealth: z.number().default(1000),

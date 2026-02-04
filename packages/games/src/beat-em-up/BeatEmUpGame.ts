@@ -13,6 +13,7 @@ import type {
   KOEvent,
   AttackType,
   ArenaGameConfig,
+  ValidActions,
 } from '@clawdbot/protocol';
 import {
   BaseGame,
@@ -20,6 +21,7 @@ import {
   type TickResult,
   type GameEvent,
 } from '@clawdbot/engine';
+import type { ActionResult } from '@clawdbot/protocol';
 import { FighterPhysics } from './physics/FighterPhysics';
 import { HitboxSystem } from './physics/HitboxSystem';
 import { FighterStateMachine } from './state/FighterStateMachine';
@@ -34,10 +36,13 @@ import { MATCH, FIGHTER, PHYSICS, COMBAT, ATTACK_DATA } from './constants';
 const DEFAULT_CONFIG: ArenaGameConfig = {
   gameType: 'beat_em_up',
   maxPlayers: 2,
+  turnBased: false,
+  turnTimeout: MATCH.DECISION_TIMEOUT_MS,
   roundsToWin: MATCH.ROUNDS_TO_WIN,
   roundTimeSeconds: MATCH.ROUND_TIME_SECONDS,
   startingHealth: MATCH.STARTING_HEALTH,
   startingMagic: MATCH.STARTING_MAGIC,
+  magicGainPerHit: COMBAT.MAGIC_GAIN_PER_HIT,
   tickRate: MATCH.TICK_RATE,
   decisionTimeoutMs: MATCH.DECISION_TIMEOUT_MS,
   stageWidth: MATCH.STAGE_WIDTH,
@@ -244,11 +249,11 @@ export class BeatEmUpGame extends BaseGame<ArenaMatchState, BotInput> {
     };
   }
 
-  private getValidActionsList(playerId: string): string[] {
+  private getValidActionsList(playerId: string): ValidActions {
     const isPlayer1 = playerId === this.matchState.player1BotId;
     const fighter = isPlayer1 ? this.matchState.player1 : this.matchState.player2;
 
-    const actions: string[] = ['WAIT'];
+    const actions: ValidActions = ['WAIT'];
 
     if (!fighter.canAct) {
       return actions;
@@ -278,13 +283,13 @@ export class BeatEmUpGame extends BaseGame<ArenaMatchState, BotInput> {
     return [{ left: false, right: false, up: false, down: false, attack1: false, attack2: false, jump: false, special: false }];
   }
 
-  applyAction(playerId: string, action: BotInput): { success: boolean; reason?: string } {
+  applyAction(playerId: string, action: BotInput): ActionResult {
     if (this.matchState.phase !== 'fighting') {
-      return { success: false, reason: 'Not in fighting phase' };
+      return { success: false, effects: [] };
     }
 
     this.matchState.pendingInputs.set(playerId, action);
-    return { success: true };
+    return { success: true, effects: [] };
   }
 
   // =============================================================================

@@ -107,12 +107,12 @@ export class PhaserArenaScene extends Phaser.Scene {
     for (const effect of effects) {
       // Load the spritesheet version
       this.load.image(`${effect}`, `${ASSET_BASE}/sprites/effects/${effect}.png`);
-      // Load individual frames
+      // Load individual frames (named effect_0.png, effect_1.png, etc.)
       const frameCount = effect === 'block' ? 3 : 4;
       for (let i = 0; i < frameCount; i++) {
         this.load.image(
           `${effect}_${i}`,
-          `${ASSET_BASE}/sprites/effects/${effect}/frame_${i.toString().padStart(2, '0')}.png`
+          `${ASSET_BASE}/sprites/effects/${effect}_${i}.png`
         );
       }
     }

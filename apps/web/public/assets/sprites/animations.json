@@ -1,0 +1,272 @@
+{
+  "fighters": {
+    "alphabot": {
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle"
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk"
+          ],
+          "loop": true
+        },
+        "walk2": {
+          "frames": [
+            "walk2"
+          ],
+          "loop": true
+        },
+        "jump": {
+          "frames": [
+            "jump"
+          ],
+          "loop": false
+        },
+        "attack1": {
+          "frames": [
+            "attack1"
+          ],
+          "loop": false
+        },
+        "attack2": {
+          "frames": [
+            "attack2"
+          ],
+          "loop": false
+        },
+        "special": {
+          "frames": [
+            "special"
+          ],
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "hit"
+          ],
+          "loop": false
+        },
+        "ko": {
+          "frames": [
+            "ko"
+          ],
+          "loop": false
+        }
+      },
+      "frameRate": 10
+    },
+    "neuralknight": {
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle"
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk"
+          ],
+          "loop": true
+        },
+        "walk2": {
+          "frames": [
+            "walk2"
+          ],
+          "loop": true
+        },
+        "jump": {
+          "frames": [
+            "jump"
+          ],
+          "loop": false
+        },
+        "attack1": {
+          "frames": [
+            "attack1"
+          ],
+          "loop": false
+        },
+        "attack2": {
+          "frames": [
+            "attack2"
+          ],
+          "loop": false
+        },
+        "special": {
+          "frames": [
+            "special"
+          ],
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "hit"
+          ],
+          "loop": false
+        },
+        "ko": {
+          "frames": [
+            "ko"
+          ],
+          "loop": false
+        }
+      },
+      "frameRate": 10
+    },
+    "quantumfist": {
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle"
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk"
+          ],
+          "loop": true
+        },
+        "walk2": {
+          "frames": [
+            "walk2"
+          ],
+          "loop": true
+        },
+        "jump": {
+          "frames": [
+            "jump"
+          ],
+          "loop": false
+        },
+        "attack1": {
+          "frames": [
+            "attack1"
+          ],
+          "loop": false
+        },
+        "attack2": {
+          "frames": [
+            "attack2"
+          ],
+          "loop": false
+        },
+        "special": {
+          "frames": [
+            "special"
+          ],
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "hit"
+          ],
+          "loop": false
+        },
+        "ko": {
+          "frames": [
+            "ko"
+          ],
+          "loop": false
+        }
+      },
+      "frameRate": 10
+    },
+    "ironlogic": {
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle"
+          ],
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk"
+          ],
+          "loop": true
+        },
+        "walk2": {
+          "frames": [
+            "walk2"
+          ],
+          "loop": true
+        },
+        "jump": {
+          "frames": [
+            "jump"
+          ],
+          "loop": false
+        },
+        "attack1": {
+          "frames": [
+            "attack1"
+          ],
+          "loop": false
+        },
+        "attack2": {
+          "frames": [
+            "attack2"
+          ],
+          "loop": false
+        },
+        "special": {
+          "frames": [
+            "special"
+          ],
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "hit"
+          ],
+          "loop": false
+        },
+        "ko": {
+          "frames": [
+            "ko"
+          ],
+          "loop": false
+        }
+      },
+      "frameRate": 10
+    }
+  },
+  "effects": {
+    "hit-spark": {
+      "frames": 4,
+      "frameRate": 15,
+      "repeat": 0
+    },
+    "heavy-hit": {
+      "frames": 4,
+      "frameRate": 15,
+      "repeat": 0
+    },
+    "block": {
+      "frames": 3,
+      "frameRate": 15,
+      "repeat": 0
+    },
+    "dust": {
+      "frames": 1,
+      "frameRate": 15,
+      "repeat": 0
+    },
+    "ko-explosion": {
+      "frames": 1,
+      "frameRate": 15,
+      "repeat": 0
+    },
+    "energy-charge": {
+      "frames": 1,
+      "frameRate": 15,
+      "repeat": 0
+    }
+  }
+}

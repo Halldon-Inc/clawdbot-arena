@@ -230,8 +230,8 @@ export const ATTACK_DATA: Record<string, AttackFrameData> = {
 
 export const MATCH = {
   // Round settings
-  ROUNDS_TO_WIN: 2,
-  ROUND_TIME_SECONDS: 99,
+  ROUNDS_TO_WIN: 1,
+  ROUND_TIME_SECONDS: 30,
   STARTING_HEALTH: 1000,
   STARTING_MAGIC: 0,
   MAX_MAGIC: 100,

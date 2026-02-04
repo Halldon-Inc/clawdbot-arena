@@ -131,6 +131,8 @@ export class OpenBORBridge {
     this.gameConfig = {
       gameType: 'beat_em_up',
       maxPlayers: 2,
+      turnBased: false,
+      turnTimeout: 100,
       roundsToWin: 2,
       roundTimeSeconds: 99,
       startingHealth: 1000,
