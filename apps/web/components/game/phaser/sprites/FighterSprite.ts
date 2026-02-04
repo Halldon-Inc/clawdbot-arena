@@ -1,37 +1,82 @@
 /**
  * Fighter Sprite
- * Renders and animates a fighter character
+ * Renders and animates a fighter character using actual sprite assets
  */
 
 import Phaser from 'phaser';
 import type { FighterState, FighterStateEnum } from '@clawdbot/protocol';
 
+// Map game states to animation names
+const STATE_TO_ANIM: Record<FighterStateEnum, string> = {
+  idle: 'idle',
+  walking: 'walk',
+  running: 'walk',
+  jumping: 'jump',
+  falling: 'jump',
+  attacking: 'attack1',
+  hitstun: 'hit',
+  knockdown: 'hit',
+  ko: 'ko',
+  blocking: 'idle',
+  getup: 'idle',
+  landing: 'idle',
+  teching: 'idle',
+};
+
 export class FighterSprite extends Phaser.GameObjects.Container {
-  private body: Phaser.GameObjects.Rectangle;
-  private head: Phaser.GameObjects.Arc;
+  private sprite: Phaser.GameObjects.Image;
+  private shadowSprite: Phaser.GameObjects.Ellipse;
+  private characterId: string;
   private targetX = 0;
   private targetY = 0;
   private currentState: FighterStateEnum = 'idle';
+  private previousState: FighterStateEnum = 'idle';
   private isPlayer1: boolean;
   private animTimer = 0;
   private hitFlashTimer = 0;
+  private currentAnimFrame = 0;
 
   // Animation offsets
   private bobOffset = 0;
   private squashStretch = 1;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, playerId: string) {
+  // Sprite scale
+  private readonly SPRITE_SCALE = 2;
+
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    playerId: string,
+    characterId: string = 'alphabot'
+  ) {
     super(scene, x, y);
 
     this.isPlayer1 = playerId === 'player1';
-    const color = this.isPlayer1 ? 0x4a90d9 : 0xd94a4a;
+    this.characterId = characterId;
 
-    // Create body parts
-    this.body = scene.add.rectangle(0, -50, 60, 100, color);
-    this.head = scene.add.circle(0, -110, 25, color);
+    // Create shadow
+    this.shadowSprite = scene.add.ellipse(0, 60, 60, 20, 0x000000, 0.3);
+    this.add(this.shadowSprite);
 
-    // Add to container
-    this.add([this.body, this.head]);
+    // Create main sprite
+    const textureKey = `${characterId}_idle`;
+    if (scene.textures.exists(textureKey)) {
+      this.sprite = scene.add.image(0, 0, textureKey);
+    } else {
+      // Fallback to colored rectangle if texture doesn't exist
+      const graphics = scene.make.graphics({ x: 0, y: 0 });
+      const color = this.isPlayer1 ? 0x4a90d9 : 0xd94a4a;
+      graphics.fillStyle(color);
+      graphics.fillRect(0, 0, 60, 100);
+      graphics.generateTexture(`fallback_${playerId}`, 60, 100);
+      graphics.destroy();
+      this.sprite = scene.add.image(0, 0, `fallback_${playerId}`);
+    }
+
+    this.sprite.setScale(this.SPRITE_SCALE);
+    this.sprite.setOrigin(0.5, 1); // Origin at bottom center
+    this.add(this.sprite);
 
     // Add to scene
     scene.add.existing(this);
@@ -41,18 +86,46 @@ export class FighterSprite extends Phaser.GameObjects.Container {
   }
 
   /**
+   * Set the character (fighter) to use
+   */
+  setCharacter(characterId: string): void {
+    this.characterId = characterId;
+    this.updateSpriteTexture();
+  }
+
+  /**
    * Update target state from server
    */
   setTargetState(state: FighterState): void {
     this.targetX = this.scaleX(state.x);
     this.targetY = this.scaleY(state.y);
+    this.previousState = this.currentState;
     this.currentState = state.state;
 
     // Flip based on facing direction
-    this.setScale(state.facing === 'left' ? -1 : 1, 1);
+    const facingLeft = state.facing === 'left';
+    this.sprite.setFlipX(facingLeft);
+
+    // Update animation when state changes
+    if (this.currentState !== this.previousState) {
+      this.currentAnimFrame = 0;
+      this.updateSpriteTexture();
+    }
 
     // Handle state-specific visuals
     this.updateStateVisuals(state);
+  }
+
+  /**
+   * Update sprite texture based on current state
+   */
+  private updateSpriteTexture(): void {
+    const animName = STATE_TO_ANIM[this.currentState] || 'idle';
+    const textureKey = `${this.characterId}_${animName}`;
+
+    if (this.scene.textures.exists(textureKey)) {
+      this.sprite.setTexture(textureKey);
+    }
   }
 
   /**
@@ -68,19 +141,24 @@ export class FighterSprite extends Phaser.GameObjects.Container {
     this.animTimer += delta;
     this.updateAnimations(delta);
 
+    // Update shadow
+    this.updateShadow();
+
     // Hit flash decay
     if (this.hitFlashTimer > 0) {
       this.hitFlashTimer -= delta;
-      const flashIntensity = this.hitFlashTimer / 200;
-      const tint = Phaser.Display.Color.Interpolate.ColorWithColor(
-        { r: 255, g: 255, b: 255 },
-        this.isPlayer1 ? { r: 74, g: 144, b: 217 } : { r: 217, g: 74, b: 74 },
-        1,
-        1 - flashIntensity
+      const flashIntensity = Math.min(1, this.hitFlashTimer / 100);
+      this.sprite.setTint(
+        Phaser.Display.Color.GetColor(
+          255,
+          255 * (1 - flashIntensity),
+          255 * (1 - flashIntensity)
+        )
       );
-      const colorValue = Phaser.Display.Color.GetColor(tint.r, tint.g, tint.b);
-      this.body.setFillStyle(colorValue);
-      this.head.setFillStyle(colorValue);
+
+      if (this.hitFlashTimer <= 0) {
+        this.sprite.clearTint();
+      }
     }
   }
 
@@ -89,8 +167,7 @@ export class FighterSprite extends Phaser.GameObjects.Container {
    */
   flashHit(): void {
     this.hitFlashTimer = 200;
-    this.body.setFillStyle(0xffffff);
-    this.head.setFillStyle(0xffffff);
+    this.sprite.setTint(0xffffff);
   }
 
   /**
@@ -122,15 +199,31 @@ export class FighterSprite extends Phaser.GameObjects.Container {
         break;
 
       case 'ko':
-        this.body.setRotation(Math.PI / 2);
-        this.head.setVisible(false);
+        // Rotate sprite when KO'd
+        this.sprite.setRotation(Math.PI / 2);
+        this.sprite.setAlpha(0.8);
         break;
 
       default:
-        this.body.setRotation(0);
-        this.head.setVisible(true);
+        this.sprite.setRotation(0);
+        this.sprite.setAlpha(1);
         break;
     }
+  }
+
+  /**
+   * Update shadow position and scale
+   */
+  private updateShadow(): void {
+    // Shadow stays on ground
+    const groundOffset = 60;
+    this.shadowSprite.y = groundOffset;
+
+    // Scale shadow based on height (jumping)
+    const heightAboveGround = Math.max(0, this.targetY - this.y);
+    const shadowScale = Math.max(0.5, 1 - heightAboveGround / 200);
+    this.shadowSprite.setScale(shadowScale, shadowScale * 0.4);
+    this.shadowSprite.setAlpha(0.3 * shadowScale);
   }
 
   /**
@@ -160,13 +253,13 @@ export class FighterSprite extends Phaser.GameObjects.Container {
 
       case 'jumping':
         // Stretch during jump
-        this.squashStretch = 1.2;
+        this.squashStretch = 1.1;
         this.bobOffset = 0;
         break;
 
       case 'falling':
         // Squash while falling
-        this.squashStretch = 0.9;
+        this.squashStretch = 0.95;
         this.bobOffset = 0;
         break;
 
@@ -174,11 +267,14 @@ export class FighterSprite extends Phaser.GameObjects.Container {
         // Quick squash-stretch for attack
         const attackPhase = (time * 20) % 1;
         if (attackPhase < 0.3) {
-          this.squashStretch = 1.15;
+          this.squashStretch = 1.1;
+          this.bobOffset = -5;
         } else if (attackPhase < 0.6) {
-          this.squashStretch = 0.9;
+          this.squashStretch = 0.95;
+          this.bobOffset = 5;
         } else {
           this.squashStretch = 1;
+          this.bobOffset = 0;
         }
         break;
 
@@ -189,14 +285,20 @@ export class FighterSprite extends Phaser.GameObjects.Container {
         break;
 
       case 'knockdown':
-        // Rotate to ground
-        this.body.setRotation(Math.PI / 4);
+        // Fall animation
         this.squashStretch = 0.8;
+        this.bobOffset = 10;
+        break;
+
+      case 'ko':
+        // Fallen
+        this.squashStretch = 0.7;
+        this.bobOffset = 20;
         break;
 
       case 'blocking':
         // Crouch slightly
-        this.squashStretch = 0.85;
+        this.squashStretch = 0.9;
         this.bobOffset = 5;
         break;
 
@@ -205,9 +307,11 @@ export class FighterSprite extends Phaser.GameObjects.Container {
         this.squashStretch = 1;
     }
 
-    // Apply animations
-    this.body.y = -50 - this.bobOffset;
-    this.body.setScale(Math.abs(this.scaleX) * (2 - this.squashStretch), this.squashStretch);
-    this.head.y = -110 - this.bobOffset * 0.5;
+    // Apply animations to sprite
+    this.sprite.y = -this.bobOffset;
+    this.sprite.setScale(
+      this.SPRITE_SCALE * (this.sprite.flipX ? -1 : 1),
+      this.SPRITE_SCALE * this.squashStretch
+    );
   }
 }
